@@ -1,0 +1,4167 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CONST
+    REPEAT
+    RETURN
+    UNTIL
+
+Grammar
+
+Rule 0     S' -> Program
+Rule 1     Program -> PROGRAM ProgramDeclaration
+Rule 2     Scope -> ManyDeclarations StatementBlock
+Rule 3     Scope -> StatementBlock
+Rule 4     TerminalSemicolons -> <empty>
+Rule 5     TerminalSemicolons -> SEMICOLON TerminalSemicolons
+Rule 6     StatementBlock -> BEGIN END
+Rule 7     StatementBlock -> BEGIN ManyStatements TerminalSemicolons END
+Rule 8     ManyStatements -> Statement
+Rule 9     ManyStatements -> ManyStatements SEMICOLON Statement
+Rule 10    Statement -> NoTailStatement
+Rule 11    Statement -> IfThen
+Rule 12    Statement -> IfThenElse
+Rule 13    Statement -> While
+Rule 14    Statement -> For
+Rule 15    ClosedStatement -> NoTailStatement
+Rule 16    ClosedStatement -> ClosedIfThenElse
+Rule 17    ClosedStatement -> ClosedWhile
+Rule 18    ClosedStatement -> ClosedFor
+Rule 19    NoTailStatement -> StatementBlock
+Rule 20    NoTailStatement -> Assignment
+Rule 21    NoTailStatement -> RoutineCall
+Rule 22    Assignment -> DeclaredName ASSIGN Expression
+Rule 23    IfThen -> IF Expression THEN Statement
+Rule 24    IfThenElse -> IF Expression THEN ClosedStatement ELSE Statement
+Rule 25    ClosedIfThenElse -> IF Expression THEN ClosedStatement ELSE ClosedStatement
+Rule 26    While -> WHILE Expression DO Statement
+Rule 27    ClosedWhile -> WHILE Expression DO ClosedStatement
+Rule 28    For -> FOR Assignment TO Expression DO Statement
+Rule 29    For -> FOR Assignment DOWNTO Expression DO Statement
+Rule 30    ClosedFor -> FOR Assignment TO Expression DO ClosedStatement
+Rule 31    ClosedFor -> FOR Assignment DOWNTO Expression DO ClosedStatement
+Rule 32    ManyDeclarations -> Declaration
+Rule 33    ManyDeclarations -> ManyDeclarations Declaration
+Rule 34    Declaration -> VAR VarDeclaration
+Rule 35    Declaration -> PROCEDURE ProcedureDeclaration
+Rule 36    Declaration -> FUNCTION FunctionDeclaration
+Rule 37    VarDeclaration -> ManyParameterTuples SEMICOLON
+Rule 38    ProcedureDeclaration -> RoutineHeading SEMICOLON Scope SEMICOLON
+Rule 39    FunctionDeclaration -> RoutineHeading ReturnType SEMICOLON Scope SEMICOLON
+Rule 40    ProgramDeclaration -> DeclaredName SEMICOLON Scope DOT
+Rule 41    RoutineHeading -> DeclaredName RoutineParameters
+Rule 42    RoutineParameters -> <empty>
+Rule 43    RoutineParameters -> LPAREN RPAREN
+Rule 44    RoutineParameters -> LPAREN ManyParameterTuples RPAREN
+Rule 45    ManyParameterTuples -> ParameterTuple
+Rule 46    ManyParameterTuples -> ManyParameterTuples SEMICOLON ParameterTuple
+Rule 47    ParameterTuple -> ManyDeclaredNames ReturnType
+Rule 48    ManyDeclaredNames -> DeclaredName
+Rule 49    ManyDeclaredNames -> ManyDeclaredNames COMMA DeclaredName
+Rule 50    ReturnType -> COLON Type
+Rule 51    Type -> SimpleType
+Rule 52    Type -> ArrayType
+Rule 53    SimpleType -> TYPESTRING
+Rule 54    SimpleType -> TYPEINT
+Rule 55    SimpleType -> TYPEREAL
+Rule 56    SimpleType -> TYPECHAR
+Rule 57    SimpleType -> TYPEBOOL
+Rule 58    ArrayType -> ARRAY LSPAREN ValueRange RSPAREN OF SimpleType
+Rule 59    ValueRange -> ConstantValue DOTDOT ConstantValue
+Rule 60    ConstantValue -> LiteralValue
+Rule 61    ConstantValue -> DeclaredName
+Rule 62    ManyExpressions -> Expression
+Rule 63    ManyExpressions -> ManyExpressions COMMA Expression
+Rule 64    Expression -> OrExpression
+Rule 65    OrExpression -> AndExpression
+Rule 66    OrExpression -> OrExpression OR AndExpression
+Rule 67    AndExpression -> RelExpression
+Rule 68    AndExpression -> AndExpression AND RelExpression
+Rule 69    RelExpression -> AddExpression
+Rule 70    RelExpression -> RelExpression RelOperator AddExpression
+Rule 71    AddExpression -> MultExpression
+Rule 72    AddExpression -> AddExpression AddOperator MultExpression
+Rule 73    MultExpression -> UnaryExpression
+Rule 74    MultExpression -> MultExpression MultOperator UnaryExpression
+Rule 75    UnaryExpression -> UnaryOperator UnaryExpression
+Rule 76    UnaryExpression -> PrimaryExpression
+Rule 77    PrimaryExpression -> LiteralValue
+Rule 78    PrimaryExpression -> LPAREN Expression RPAREN
+Rule 79    PrimaryExpression -> RoutineCall
+Rule 80    PrimaryExpression -> ArrayAccess
+Rule 81    PrimaryExpression -> DeclaredName
+Rule 82    LiteralValue -> STRINGVALUE
+Rule 83    LiteralValue -> CHARVALUE
+Rule 84    LiteralValue -> INTVALUE
+Rule 85    LiteralValue -> REALVALUE
+Rule 86    LiteralValue -> TRUE
+Rule 87    LiteralValue -> FALSE
+Rule 88    ArrayAccess -> DeclaredName LSPAREN RSPAREN
+Rule 89    ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN
+Rule 90    DeclaredName -> IDENTIFIER
+Rule 91    RelOperator -> EQ
+Rule 92    RelOperator -> NEQ
+Rule 93    RelOperator -> LT
+Rule 94    RelOperator -> GT
+Rule 95    RelOperator -> LTE
+Rule 96    RelOperator -> GTE
+Rule 97    AddOperator -> PLUS
+Rule 98    AddOperator -> MINUS
+Rule 99    MultOperator -> TIMES
+Rule 100   MultOperator -> INTDIV
+Rule 101   MultOperator -> REALDIV
+Rule 102   MultOperator -> MOD
+Rule 103   UnaryOperator -> PLUS
+Rule 104   UnaryOperator -> MINUS
+Rule 105   UnaryOperator -> NOT
+Rule 106   RoutineCall -> DeclaredName LPAREN RPAREN
+Rule 107   RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN
+
+Terminals, with rules where they appear
+
+AND                  : 68
+ARRAY                : 58
+ASSIGN               : 22
+BEGIN                : 6 7
+CHARVALUE            : 83
+COLON                : 50
+COMMA                : 49 63
+CONST                : 
+DO                   : 26 27 28 29 30 31
+DOT                  : 40
+DOTDOT               : 59
+DOWNTO               : 29 31
+ELSE                 : 24 25
+END                  : 6 7
+EQ                   : 91
+FALSE                : 87
+FOR                  : 28 29 30 31
+FUNCTION             : 36
+GT                   : 94
+GTE                  : 96
+IDENTIFIER           : 90
+IF                   : 23 24 25
+INTDIV               : 100
+INTVALUE             : 84
+LPAREN               : 43 44 78 106 107
+LSPAREN              : 58 88 89
+LT                   : 93
+LTE                  : 95
+MINUS                : 98 104
+MOD                  : 102
+NEQ                  : 92
+NOT                  : 105
+OF                   : 58
+OR                   : 66
+PLUS                 : 97 103
+PROCEDURE            : 35
+PROGRAM              : 1
+REALDIV              : 101
+REALVALUE            : 85
+REPEAT               : 
+RETURN               : 
+RPAREN               : 43 44 78 106 107
+RSPAREN              : 58 88 89
+SEMICOLON            : 5 9 37 38 38 39 39 40 46
+STRINGVALUE          : 82
+THEN                 : 23 24 25
+TIMES                : 99
+TO                   : 28 30
+TRUE                 : 86
+TYPEBOOL             : 57
+TYPECHAR             : 56
+TYPEINT              : 54
+TYPEREAL             : 55
+TYPESTRING           : 53
+UNTIL                : 
+VAR                  : 34
+WHILE                : 26 27
+error                : 
+
+Nonterminals, with rules where they appear
+
+AddExpression        : 69 70 72
+AddOperator          : 72
+AndExpression        : 65 66 68
+ArrayAccess          : 80
+ArrayType            : 52
+Assignment           : 20 28 29 30 31
+ClosedFor            : 18
+ClosedIfThenElse     : 16
+ClosedStatement      : 24 25 25 27 30 31
+ClosedWhile          : 17
+ConstantValue        : 59 59
+Declaration          : 32 33
+DeclaredName         : 22 40 41 48 49 61 81 88 89 106 107
+Expression           : 22 23 24 25 26 27 28 29 30 31 62 63 78 89
+For                  : 14
+FunctionDeclaration  : 36
+IfThen               : 11
+IfThenElse           : 12
+LiteralValue         : 60 77
+ManyDeclarations     : 2 33
+ManyDeclaredNames    : 47 49
+ManyExpressions      : 63 107
+ManyParameterTuples  : 37 44 46
+ManyStatements       : 7 9
+MultExpression       : 71 72 74
+MultOperator         : 74
+NoTailStatement      : 10 15
+OrExpression         : 64 66
+ParameterTuple       : 45 46
+PrimaryExpression    : 76
+ProcedureDeclaration : 35
+Program              : 0
+ProgramDeclaration   : 1
+RelExpression        : 67 68 70
+RelOperator          : 70
+ReturnType           : 39 47
+RoutineCall          : 21 79
+RoutineHeading       : 38 39
+RoutineParameters    : 41
+Scope                : 38 39 40
+SimpleType           : 51 58
+Statement            : 8 9 23 24 26 28 29
+StatementBlock       : 2 3 19
+TerminalSemicolons   : 5 7
+Type                 : 50
+UnaryExpression      : 73 74 75
+UnaryOperator        : 75
+ValueRange           : 58
+VarDeclaration       : 34
+While                : 13
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . Program
+    (1) Program -> . PROGRAM ProgramDeclaration
+
+    PROGRAM         shift and go to state 2
+
+    Program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> Program .
+
+
+
+state 2
+
+    (1) Program -> PROGRAM . ProgramDeclaration
+    (40) ProgramDeclaration -> . DeclaredName SEMICOLON Scope DOT
+    (90) DeclaredName -> . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 5
+
+    ProgramDeclaration             shift and go to state 3
+    DeclaredName                   shift and go to state 4
+
+state 3
+
+    (1) Program -> PROGRAM ProgramDeclaration .
+
+    $end            reduce using rule 1 (Program -> PROGRAM ProgramDeclaration .)
+
+
+state 4
+
+    (40) ProgramDeclaration -> DeclaredName . SEMICOLON Scope DOT
+
+    SEMICOLON       shift and go to state 6
+
+
+state 5
+
+    (90) DeclaredName -> IDENTIFIER .
+
+    SEMICOLON       reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    ASSIGN          reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    LPAREN          reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    COMMA           reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    COLON           reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    LSPAREN         reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    TIMES           reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    INTDIV          reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    REALDIV         reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    MOD             reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    PLUS            reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    MINUS           reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    EQ              reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    NEQ             reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    LT              reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    GT              reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    LTE             reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    GTE             reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    AND             reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    OR              reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    THEN            reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    DO              reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    RPAREN          reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    END             reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    TO              reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    DOWNTO          reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    ELSE            reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    RSPAREN         reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+    DOTDOT          reduce using rule 90 (DeclaredName -> IDENTIFIER .)
+
+
+state 6
+
+    (40) ProgramDeclaration -> DeclaredName SEMICOLON . Scope DOT
+    (2) Scope -> . ManyDeclarations StatementBlock
+    (3) Scope -> . StatementBlock
+    (32) ManyDeclarations -> . Declaration
+    (33) ManyDeclarations -> . ManyDeclarations Declaration
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (34) Declaration -> . VAR VarDeclaration
+    (35) Declaration -> . PROCEDURE ProcedureDeclaration
+    (36) Declaration -> . FUNCTION FunctionDeclaration
+
+    BEGIN           shift and go to state 11
+    VAR             shift and go to state 12
+    PROCEDURE       shift and go to state 13
+    FUNCTION        shift and go to state 14
+
+    Scope                          shift and go to state 7
+    ManyDeclarations               shift and go to state 8
+    StatementBlock                 shift and go to state 9
+    Declaration                    shift and go to state 10
+
+state 7
+
+    (40) ProgramDeclaration -> DeclaredName SEMICOLON Scope . DOT
+
+    DOT             shift and go to state 15
+
+
+state 8
+
+    (2) Scope -> ManyDeclarations . StatementBlock
+    (33) ManyDeclarations -> ManyDeclarations . Declaration
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (34) Declaration -> . VAR VarDeclaration
+    (35) Declaration -> . PROCEDURE ProcedureDeclaration
+    (36) Declaration -> . FUNCTION FunctionDeclaration
+
+    BEGIN           shift and go to state 11
+    VAR             shift and go to state 12
+    PROCEDURE       shift and go to state 13
+    FUNCTION        shift and go to state 14
+
+    StatementBlock                 shift and go to state 16
+    Declaration                    shift and go to state 17
+
+state 9
+
+    (3) Scope -> StatementBlock .
+
+    DOT             reduce using rule 3 (Scope -> StatementBlock .)
+    SEMICOLON       reduce using rule 3 (Scope -> StatementBlock .)
+
+
+state 10
+
+    (32) ManyDeclarations -> Declaration .
+
+    BEGIN           reduce using rule 32 (ManyDeclarations -> Declaration .)
+    VAR             reduce using rule 32 (ManyDeclarations -> Declaration .)
+    PROCEDURE       reduce using rule 32 (ManyDeclarations -> Declaration .)
+    FUNCTION        reduce using rule 32 (ManyDeclarations -> Declaration .)
+
+
+state 11
+
+    (6) StatementBlock -> BEGIN . END
+    (7) StatementBlock -> BEGIN . ManyStatements TerminalSemicolons END
+    (8) ManyStatements -> . Statement
+    (9) ManyStatements -> . ManyStatements SEMICOLON Statement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    END             shift and go to state 18
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+    FOR             shift and go to state 31
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    ManyStatements                 shift and go to state 19
+    Statement                      shift and go to state 20
+    NoTailStatement                shift and go to state 21
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    StatementBlock                 shift and go to state 26
+    Assignment                     shift and go to state 27
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 12
+
+    (34) Declaration -> VAR . VarDeclaration
+    (37) VarDeclaration -> . ManyParameterTuples SEMICOLON
+    (45) ManyParameterTuples -> . ParameterTuple
+    (46) ManyParameterTuples -> . ManyParameterTuples SEMICOLON ParameterTuple
+    (47) ParameterTuple -> . ManyDeclaredNames ReturnType
+    (48) ManyDeclaredNames -> . DeclaredName
+    (49) ManyDeclaredNames -> . ManyDeclaredNames COMMA DeclaredName
+    (90) DeclaredName -> . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 5
+
+    VarDeclaration                 shift and go to state 33
+    ManyParameterTuples            shift and go to state 34
+    ParameterTuple                 shift and go to state 35
+    ManyDeclaredNames              shift and go to state 36
+    DeclaredName                   shift and go to state 37
+
+state 13
+
+    (35) Declaration -> PROCEDURE . ProcedureDeclaration
+    (38) ProcedureDeclaration -> . RoutineHeading SEMICOLON Scope SEMICOLON
+    (41) RoutineHeading -> . DeclaredName RoutineParameters
+    (90) DeclaredName -> . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 5
+
+    ProcedureDeclaration           shift and go to state 38
+    RoutineHeading                 shift and go to state 39
+    DeclaredName                   shift and go to state 40
+
+state 14
+
+    (36) Declaration -> FUNCTION . FunctionDeclaration
+    (39) FunctionDeclaration -> . RoutineHeading ReturnType SEMICOLON Scope SEMICOLON
+    (41) RoutineHeading -> . DeclaredName RoutineParameters
+    (90) DeclaredName -> . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 5
+
+    FunctionDeclaration            shift and go to state 41
+    RoutineHeading                 shift and go to state 42
+    DeclaredName                   shift and go to state 40
+
+state 15
+
+    (40) ProgramDeclaration -> DeclaredName SEMICOLON Scope DOT .
+
+    $end            reduce using rule 40 (ProgramDeclaration -> DeclaredName SEMICOLON Scope DOT .)
+
+
+state 16
+
+    (2) Scope -> ManyDeclarations StatementBlock .
+
+    DOT             reduce using rule 2 (Scope -> ManyDeclarations StatementBlock .)
+    SEMICOLON       reduce using rule 2 (Scope -> ManyDeclarations StatementBlock .)
+
+
+state 17
+
+    (33) ManyDeclarations -> ManyDeclarations Declaration .
+
+    BEGIN           reduce using rule 33 (ManyDeclarations -> ManyDeclarations Declaration .)
+    VAR             reduce using rule 33 (ManyDeclarations -> ManyDeclarations Declaration .)
+    PROCEDURE       reduce using rule 33 (ManyDeclarations -> ManyDeclarations Declaration .)
+    FUNCTION        reduce using rule 33 (ManyDeclarations -> ManyDeclarations Declaration .)
+
+
+state 18
+
+    (6) StatementBlock -> BEGIN END .
+
+    DOT             reduce using rule 6 (StatementBlock -> BEGIN END .)
+    SEMICOLON       reduce using rule 6 (StatementBlock -> BEGIN END .)
+    END             reduce using rule 6 (StatementBlock -> BEGIN END .)
+    ELSE            reduce using rule 6 (StatementBlock -> BEGIN END .)
+
+
+state 19
+
+    (7) StatementBlock -> BEGIN ManyStatements . TerminalSemicolons END
+    (9) ManyStatements -> ManyStatements . SEMICOLON Statement
+    (4) TerminalSemicolons -> .
+    (5) TerminalSemicolons -> . SEMICOLON TerminalSemicolons
+
+    SEMICOLON       shift and go to state 44
+    END             reduce using rule 4 (TerminalSemicolons -> .)
+
+    TerminalSemicolons             shift and go to state 43
+
+state 20
+
+    (8) ManyStatements -> Statement .
+
+    SEMICOLON       reduce using rule 8 (ManyStatements -> Statement .)
+    END             reduce using rule 8 (ManyStatements -> Statement .)
+
+
+state 21
+
+    (10) Statement -> NoTailStatement .
+
+    SEMICOLON       reduce using rule 10 (Statement -> NoTailStatement .)
+    END             reduce using rule 10 (Statement -> NoTailStatement .)
+
+
+state 22
+
+    (11) Statement -> IfThen .
+
+    SEMICOLON       reduce using rule 11 (Statement -> IfThen .)
+    END             reduce using rule 11 (Statement -> IfThen .)
+
+
+state 23
+
+    (12) Statement -> IfThenElse .
+
+    SEMICOLON       reduce using rule 12 (Statement -> IfThenElse .)
+    END             reduce using rule 12 (Statement -> IfThenElse .)
+
+
+state 24
+
+    (13) Statement -> While .
+
+    SEMICOLON       reduce using rule 13 (Statement -> While .)
+    END             reduce using rule 13 (Statement -> While .)
+
+
+state 25
+
+    (14) Statement -> For .
+
+    SEMICOLON       reduce using rule 14 (Statement -> For .)
+    END             reduce using rule 14 (Statement -> For .)
+
+
+state 26
+
+    (19) NoTailStatement -> StatementBlock .
+
+    SEMICOLON       reduce using rule 19 (NoTailStatement -> StatementBlock .)
+    END             reduce using rule 19 (NoTailStatement -> StatementBlock .)
+    ELSE            reduce using rule 19 (NoTailStatement -> StatementBlock .)
+
+
+state 27
+
+    (20) NoTailStatement -> Assignment .
+
+    SEMICOLON       reduce using rule 20 (NoTailStatement -> Assignment .)
+    END             reduce using rule 20 (NoTailStatement -> Assignment .)
+    ELSE            reduce using rule 20 (NoTailStatement -> Assignment .)
+
+
+state 28
+
+    (21) NoTailStatement -> RoutineCall .
+
+    SEMICOLON       reduce using rule 21 (NoTailStatement -> RoutineCall .)
+    END             reduce using rule 21 (NoTailStatement -> RoutineCall .)
+    ELSE            reduce using rule 21 (NoTailStatement -> RoutineCall .)
+
+
+state 29
+
+    (23) IfThen -> IF . Expression THEN Statement
+    (24) IfThenElse -> IF . Expression THEN ClosedStatement ELSE Statement
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 45
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 30
+
+    (26) While -> WHILE . Expression DO Statement
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 68
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 31
+
+    (28) For -> FOR . Assignment TO Expression DO Statement
+    (29) For -> FOR . Assignment DOWNTO Expression DO Statement
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (90) DeclaredName -> . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 5
+
+    Assignment                     shift and go to state 69
+    DeclaredName                   shift and go to state 70
+
+state 32
+
+    (22) Assignment -> DeclaredName . ASSIGN Expression
+    (106) RoutineCall -> DeclaredName . LPAREN RPAREN
+    (107) RoutineCall -> DeclaredName . LPAREN ManyExpressions RPAREN
+
+    ASSIGN          shift and go to state 71
+    LPAREN          shift and go to state 72
+
+
+state 33
+
+    (34) Declaration -> VAR VarDeclaration .
+
+    BEGIN           reduce using rule 34 (Declaration -> VAR VarDeclaration .)
+    VAR             reduce using rule 34 (Declaration -> VAR VarDeclaration .)
+    PROCEDURE       reduce using rule 34 (Declaration -> VAR VarDeclaration .)
+    FUNCTION        reduce using rule 34 (Declaration -> VAR VarDeclaration .)
+
+
+state 34
+
+    (37) VarDeclaration -> ManyParameterTuples . SEMICOLON
+    (46) ManyParameterTuples -> ManyParameterTuples . SEMICOLON ParameterTuple
+
+    SEMICOLON       shift and go to state 73
+
+
+state 35
+
+    (45) ManyParameterTuples -> ParameterTuple .
+
+    SEMICOLON       reduce using rule 45 (ManyParameterTuples -> ParameterTuple .)
+    RPAREN          reduce using rule 45 (ManyParameterTuples -> ParameterTuple .)
+
+
+state 36
+
+    (47) ParameterTuple -> ManyDeclaredNames . ReturnType
+    (49) ManyDeclaredNames -> ManyDeclaredNames . COMMA DeclaredName
+    (50) ReturnType -> . COLON Type
+
+    COMMA           shift and go to state 75
+    COLON           shift and go to state 76
+
+    ReturnType                     shift and go to state 74
+
+state 37
+
+    (48) ManyDeclaredNames -> DeclaredName .
+
+    COMMA           reduce using rule 48 (ManyDeclaredNames -> DeclaredName .)
+    COLON           reduce using rule 48 (ManyDeclaredNames -> DeclaredName .)
+
+
+state 38
+
+    (35) Declaration -> PROCEDURE ProcedureDeclaration .
+
+    BEGIN           reduce using rule 35 (Declaration -> PROCEDURE ProcedureDeclaration .)
+    VAR             reduce using rule 35 (Declaration -> PROCEDURE ProcedureDeclaration .)
+    PROCEDURE       reduce using rule 35 (Declaration -> PROCEDURE ProcedureDeclaration .)
+    FUNCTION        reduce using rule 35 (Declaration -> PROCEDURE ProcedureDeclaration .)
+
+
+state 39
+
+    (38) ProcedureDeclaration -> RoutineHeading . SEMICOLON Scope SEMICOLON
+
+    SEMICOLON       shift and go to state 77
+
+
+state 40
+
+    (41) RoutineHeading -> DeclaredName . RoutineParameters
+    (42) RoutineParameters -> .
+    (43) RoutineParameters -> . LPAREN RPAREN
+    (44) RoutineParameters -> . LPAREN ManyParameterTuples RPAREN
+
+    SEMICOLON       reduce using rule 42 (RoutineParameters -> .)
+    COLON           reduce using rule 42 (RoutineParameters -> .)
+    LPAREN          shift and go to state 79
+
+    RoutineParameters              shift and go to state 78
+
+state 41
+
+    (36) Declaration -> FUNCTION FunctionDeclaration .
+
+    BEGIN           reduce using rule 36 (Declaration -> FUNCTION FunctionDeclaration .)
+    VAR             reduce using rule 36 (Declaration -> FUNCTION FunctionDeclaration .)
+    PROCEDURE       reduce using rule 36 (Declaration -> FUNCTION FunctionDeclaration .)
+    FUNCTION        reduce using rule 36 (Declaration -> FUNCTION FunctionDeclaration .)
+
+
+state 42
+
+    (39) FunctionDeclaration -> RoutineHeading . ReturnType SEMICOLON Scope SEMICOLON
+    (50) ReturnType -> . COLON Type
+
+    COLON           shift and go to state 76
+
+    ReturnType                     shift and go to state 80
+
+state 43
+
+    (7) StatementBlock -> BEGIN ManyStatements TerminalSemicolons . END
+
+    END             shift and go to state 81
+
+
+state 44
+
+    (9) ManyStatements -> ManyStatements SEMICOLON . Statement
+    (5) TerminalSemicolons -> SEMICOLON . TerminalSemicolons
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (4) TerminalSemicolons -> .
+    (5) TerminalSemicolons -> . SEMICOLON TerminalSemicolons
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    END             reduce using rule 4 (TerminalSemicolons -> .)
+    SEMICOLON       shift and go to state 82
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+    FOR             shift and go to state 31
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Statement                      shift and go to state 83
+    TerminalSemicolons             shift and go to state 84
+    NoTailStatement                shift and go to state 21
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    StatementBlock                 shift and go to state 26
+    Assignment                     shift and go to state 27
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 45
+
+    (23) IfThen -> IF Expression . THEN Statement
+    (24) IfThenElse -> IF Expression . THEN ClosedStatement ELSE Statement
+
+    THEN            shift and go to state 85
+
+
+state 46
+
+    (64) Expression -> OrExpression .
+    (66) OrExpression -> OrExpression . OR AndExpression
+
+    THEN            reduce using rule 64 (Expression -> OrExpression .)
+    DO              reduce using rule 64 (Expression -> OrExpression .)
+    RPAREN          reduce using rule 64 (Expression -> OrExpression .)
+    SEMICOLON       reduce using rule 64 (Expression -> OrExpression .)
+    END             reduce using rule 64 (Expression -> OrExpression .)
+    TO              reduce using rule 64 (Expression -> OrExpression .)
+    DOWNTO          reduce using rule 64 (Expression -> OrExpression .)
+    ELSE            reduce using rule 64 (Expression -> OrExpression .)
+    COMMA           reduce using rule 64 (Expression -> OrExpression .)
+    RSPAREN         reduce using rule 64 (Expression -> OrExpression .)
+    OR              shift and go to state 86
+
+
+state 47
+
+    (65) OrExpression -> AndExpression .
+    (68) AndExpression -> AndExpression . AND RelExpression
+
+    OR              reduce using rule 65 (OrExpression -> AndExpression .)
+    THEN            reduce using rule 65 (OrExpression -> AndExpression .)
+    DO              reduce using rule 65 (OrExpression -> AndExpression .)
+    RPAREN          reduce using rule 65 (OrExpression -> AndExpression .)
+    SEMICOLON       reduce using rule 65 (OrExpression -> AndExpression .)
+    END             reduce using rule 65 (OrExpression -> AndExpression .)
+    TO              reduce using rule 65 (OrExpression -> AndExpression .)
+    DOWNTO          reduce using rule 65 (OrExpression -> AndExpression .)
+    ELSE            reduce using rule 65 (OrExpression -> AndExpression .)
+    COMMA           reduce using rule 65 (OrExpression -> AndExpression .)
+    RSPAREN         reduce using rule 65 (OrExpression -> AndExpression .)
+    AND             shift and go to state 87
+
+
+state 48
+
+    (67) AndExpression -> RelExpression .
+    (70) RelExpression -> RelExpression . RelOperator AddExpression
+    (91) RelOperator -> . EQ
+    (92) RelOperator -> . NEQ
+    (93) RelOperator -> . LT
+    (94) RelOperator -> . GT
+    (95) RelOperator -> . LTE
+    (96) RelOperator -> . GTE
+
+    AND             reduce using rule 67 (AndExpression -> RelExpression .)
+    OR              reduce using rule 67 (AndExpression -> RelExpression .)
+    THEN            reduce using rule 67 (AndExpression -> RelExpression .)
+    DO              reduce using rule 67 (AndExpression -> RelExpression .)
+    RPAREN          reduce using rule 67 (AndExpression -> RelExpression .)
+    SEMICOLON       reduce using rule 67 (AndExpression -> RelExpression .)
+    END             reduce using rule 67 (AndExpression -> RelExpression .)
+    TO              reduce using rule 67 (AndExpression -> RelExpression .)
+    DOWNTO          reduce using rule 67 (AndExpression -> RelExpression .)
+    ELSE            reduce using rule 67 (AndExpression -> RelExpression .)
+    COMMA           reduce using rule 67 (AndExpression -> RelExpression .)
+    RSPAREN         reduce using rule 67 (AndExpression -> RelExpression .)
+    EQ              shift and go to state 89
+    NEQ             shift and go to state 90
+    LT              shift and go to state 91
+    GT              shift and go to state 92
+    LTE             shift and go to state 93
+    GTE             shift and go to state 94
+
+    RelOperator                    shift and go to state 88
+
+state 49
+
+    (69) RelExpression -> AddExpression .
+    (72) AddExpression -> AddExpression . AddOperator MultExpression
+    (97) AddOperator -> . PLUS
+    (98) AddOperator -> . MINUS
+
+    EQ              reduce using rule 69 (RelExpression -> AddExpression .)
+    NEQ             reduce using rule 69 (RelExpression -> AddExpression .)
+    LT              reduce using rule 69 (RelExpression -> AddExpression .)
+    GT              reduce using rule 69 (RelExpression -> AddExpression .)
+    LTE             reduce using rule 69 (RelExpression -> AddExpression .)
+    GTE             reduce using rule 69 (RelExpression -> AddExpression .)
+    AND             reduce using rule 69 (RelExpression -> AddExpression .)
+    OR              reduce using rule 69 (RelExpression -> AddExpression .)
+    THEN            reduce using rule 69 (RelExpression -> AddExpression .)
+    DO              reduce using rule 69 (RelExpression -> AddExpression .)
+    RPAREN          reduce using rule 69 (RelExpression -> AddExpression .)
+    SEMICOLON       reduce using rule 69 (RelExpression -> AddExpression .)
+    END             reduce using rule 69 (RelExpression -> AddExpression .)
+    TO              reduce using rule 69 (RelExpression -> AddExpression .)
+    DOWNTO          reduce using rule 69 (RelExpression -> AddExpression .)
+    ELSE            reduce using rule 69 (RelExpression -> AddExpression .)
+    COMMA           reduce using rule 69 (RelExpression -> AddExpression .)
+    RSPAREN         reduce using rule 69 (RelExpression -> AddExpression .)
+    PLUS            shift and go to state 96
+    MINUS           shift and go to state 97
+
+    AddOperator                    shift and go to state 95
+
+state 50
+
+    (71) AddExpression -> MultExpression .
+    (74) MultExpression -> MultExpression . MultOperator UnaryExpression
+    (99) MultOperator -> . TIMES
+    (100) MultOperator -> . INTDIV
+    (101) MultOperator -> . REALDIV
+    (102) MultOperator -> . MOD
+
+    PLUS            reduce using rule 71 (AddExpression -> MultExpression .)
+    MINUS           reduce using rule 71 (AddExpression -> MultExpression .)
+    EQ              reduce using rule 71 (AddExpression -> MultExpression .)
+    NEQ             reduce using rule 71 (AddExpression -> MultExpression .)
+    LT              reduce using rule 71 (AddExpression -> MultExpression .)
+    GT              reduce using rule 71 (AddExpression -> MultExpression .)
+    LTE             reduce using rule 71 (AddExpression -> MultExpression .)
+    GTE             reduce using rule 71 (AddExpression -> MultExpression .)
+    AND             reduce using rule 71 (AddExpression -> MultExpression .)
+    OR              reduce using rule 71 (AddExpression -> MultExpression .)
+    THEN            reduce using rule 71 (AddExpression -> MultExpression .)
+    DO              reduce using rule 71 (AddExpression -> MultExpression .)
+    RPAREN          reduce using rule 71 (AddExpression -> MultExpression .)
+    SEMICOLON       reduce using rule 71 (AddExpression -> MultExpression .)
+    END             reduce using rule 71 (AddExpression -> MultExpression .)
+    TO              reduce using rule 71 (AddExpression -> MultExpression .)
+    DOWNTO          reduce using rule 71 (AddExpression -> MultExpression .)
+    ELSE            reduce using rule 71 (AddExpression -> MultExpression .)
+    COMMA           reduce using rule 71 (AddExpression -> MultExpression .)
+    RSPAREN         reduce using rule 71 (AddExpression -> MultExpression .)
+    TIMES           shift and go to state 99
+    INTDIV          shift and go to state 100
+    REALDIV         shift and go to state 101
+    MOD             shift and go to state 102
+
+    MultOperator                   shift and go to state 98
+
+state 51
+
+    (73) MultExpression -> UnaryExpression .
+
+    TIMES           reduce using rule 73 (MultExpression -> UnaryExpression .)
+    INTDIV          reduce using rule 73 (MultExpression -> UnaryExpression .)
+    REALDIV         reduce using rule 73 (MultExpression -> UnaryExpression .)
+    MOD             reduce using rule 73 (MultExpression -> UnaryExpression .)
+    PLUS            reduce using rule 73 (MultExpression -> UnaryExpression .)
+    MINUS           reduce using rule 73 (MultExpression -> UnaryExpression .)
+    EQ              reduce using rule 73 (MultExpression -> UnaryExpression .)
+    NEQ             reduce using rule 73 (MultExpression -> UnaryExpression .)
+    LT              reduce using rule 73 (MultExpression -> UnaryExpression .)
+    GT              reduce using rule 73 (MultExpression -> UnaryExpression .)
+    LTE             reduce using rule 73 (MultExpression -> UnaryExpression .)
+    GTE             reduce using rule 73 (MultExpression -> UnaryExpression .)
+    AND             reduce using rule 73 (MultExpression -> UnaryExpression .)
+    OR              reduce using rule 73 (MultExpression -> UnaryExpression .)
+    THEN            reduce using rule 73 (MultExpression -> UnaryExpression .)
+    DO              reduce using rule 73 (MultExpression -> UnaryExpression .)
+    RPAREN          reduce using rule 73 (MultExpression -> UnaryExpression .)
+    SEMICOLON       reduce using rule 73 (MultExpression -> UnaryExpression .)
+    END             reduce using rule 73 (MultExpression -> UnaryExpression .)
+    TO              reduce using rule 73 (MultExpression -> UnaryExpression .)
+    DOWNTO          reduce using rule 73 (MultExpression -> UnaryExpression .)
+    ELSE            reduce using rule 73 (MultExpression -> UnaryExpression .)
+    COMMA           reduce using rule 73 (MultExpression -> UnaryExpression .)
+    RSPAREN         reduce using rule 73 (MultExpression -> UnaryExpression .)
+
+
+state 52
+
+    (75) UnaryExpression -> UnaryOperator . UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    UnaryOperator                  shift and go to state 52
+    UnaryExpression                shift and go to state 103
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 53
+
+    (76) UnaryExpression -> PrimaryExpression .
+
+    TIMES           reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    INTDIV          reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    REALDIV         reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    MOD             reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    PLUS            reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    MINUS           reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    EQ              reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    NEQ             reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    LT              reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    GT              reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    LTE             reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    GTE             reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    AND             reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    OR              reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    THEN            reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    DO              reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    RPAREN          reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    SEMICOLON       reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    END             reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    TO              reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    DOWNTO          reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    ELSE            reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    COMMA           reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+    RSPAREN         reduce using rule 76 (UnaryExpression -> PrimaryExpression .)
+
+
+state 54
+
+    (103) UnaryOperator -> PLUS .
+
+    PLUS            reduce using rule 103 (UnaryOperator -> PLUS .)
+    MINUS           reduce using rule 103 (UnaryOperator -> PLUS .)
+    NOT             reduce using rule 103 (UnaryOperator -> PLUS .)
+    LPAREN          reduce using rule 103 (UnaryOperator -> PLUS .)
+    STRINGVALUE     reduce using rule 103 (UnaryOperator -> PLUS .)
+    CHARVALUE       reduce using rule 103 (UnaryOperator -> PLUS .)
+    INTVALUE        reduce using rule 103 (UnaryOperator -> PLUS .)
+    REALVALUE       reduce using rule 103 (UnaryOperator -> PLUS .)
+    TRUE            reduce using rule 103 (UnaryOperator -> PLUS .)
+    FALSE           reduce using rule 103 (UnaryOperator -> PLUS .)
+    IDENTIFIER      reduce using rule 103 (UnaryOperator -> PLUS .)
+
+
+state 55
+
+    (104) UnaryOperator -> MINUS .
+
+    PLUS            reduce using rule 104 (UnaryOperator -> MINUS .)
+    MINUS           reduce using rule 104 (UnaryOperator -> MINUS .)
+    NOT             reduce using rule 104 (UnaryOperator -> MINUS .)
+    LPAREN          reduce using rule 104 (UnaryOperator -> MINUS .)
+    STRINGVALUE     reduce using rule 104 (UnaryOperator -> MINUS .)
+    CHARVALUE       reduce using rule 104 (UnaryOperator -> MINUS .)
+    INTVALUE        reduce using rule 104 (UnaryOperator -> MINUS .)
+    REALVALUE       reduce using rule 104 (UnaryOperator -> MINUS .)
+    TRUE            reduce using rule 104 (UnaryOperator -> MINUS .)
+    FALSE           reduce using rule 104 (UnaryOperator -> MINUS .)
+    IDENTIFIER      reduce using rule 104 (UnaryOperator -> MINUS .)
+
+
+state 56
+
+    (105) UnaryOperator -> NOT .
+
+    PLUS            reduce using rule 105 (UnaryOperator -> NOT .)
+    MINUS           reduce using rule 105 (UnaryOperator -> NOT .)
+    NOT             reduce using rule 105 (UnaryOperator -> NOT .)
+    LPAREN          reduce using rule 105 (UnaryOperator -> NOT .)
+    STRINGVALUE     reduce using rule 105 (UnaryOperator -> NOT .)
+    CHARVALUE       reduce using rule 105 (UnaryOperator -> NOT .)
+    INTVALUE        reduce using rule 105 (UnaryOperator -> NOT .)
+    REALVALUE       reduce using rule 105 (UnaryOperator -> NOT .)
+    TRUE            reduce using rule 105 (UnaryOperator -> NOT .)
+    FALSE           reduce using rule 105 (UnaryOperator -> NOT .)
+    IDENTIFIER      reduce using rule 105 (UnaryOperator -> NOT .)
+
+
+state 57
+
+    (77) PrimaryExpression -> LiteralValue .
+
+    TIMES           reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    INTDIV          reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    REALDIV         reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    MOD             reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    PLUS            reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    MINUS           reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    EQ              reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    NEQ             reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    LT              reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    GT              reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    LTE             reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    GTE             reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    AND             reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    OR              reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    THEN            reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    DO              reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    RPAREN          reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    SEMICOLON       reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    END             reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    TO              reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    DOWNTO          reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    ELSE            reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    COMMA           reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+    RSPAREN         reduce using rule 77 (PrimaryExpression -> LiteralValue .)
+
+
+state 58
+
+    (78) PrimaryExpression -> LPAREN . Expression RPAREN
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 104
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 59
+
+    (79) PrimaryExpression -> RoutineCall .
+
+    TIMES           reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    INTDIV          reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    REALDIV         reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    MOD             reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    PLUS            reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    MINUS           reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    EQ              reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    NEQ             reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    LT              reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    GT              reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    LTE             reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    GTE             reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    AND             reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    OR              reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    THEN            reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    DO              reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    RPAREN          reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    SEMICOLON       reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    END             reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    TO              reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    DOWNTO          reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    ELSE            reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    COMMA           reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+    RSPAREN         reduce using rule 79 (PrimaryExpression -> RoutineCall .)
+
+
+state 60
+
+    (80) PrimaryExpression -> ArrayAccess .
+
+    TIMES           reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    INTDIV          reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    REALDIV         reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    MOD             reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    PLUS            reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    MINUS           reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    EQ              reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    NEQ             reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    LT              reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    GT              reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    LTE             reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    GTE             reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    AND             reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    OR              reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    THEN            reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    DO              reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    RPAREN          reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    SEMICOLON       reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    END             reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    TO              reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    DOWNTO          reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    ELSE            reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    COMMA           reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+    RSPAREN         reduce using rule 80 (PrimaryExpression -> ArrayAccess .)
+
+
+state 61
+
+    (81) PrimaryExpression -> DeclaredName .
+    (106) RoutineCall -> DeclaredName . LPAREN RPAREN
+    (107) RoutineCall -> DeclaredName . LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> DeclaredName . LSPAREN RSPAREN
+    (89) ArrayAccess -> DeclaredName . LSPAREN Expression RSPAREN
+
+    TIMES           reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    INTDIV          reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    REALDIV         reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    MOD             reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    PLUS            reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    MINUS           reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    EQ              reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    NEQ             reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    LT              reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    GT              reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    LTE             reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    GTE             reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    AND             reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    OR              reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    THEN            reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    DO              reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    RPAREN          reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    SEMICOLON       reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    END             reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    TO              reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    DOWNTO          reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    ELSE            reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    COMMA           reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    RSPAREN         reduce using rule 81 (PrimaryExpression -> DeclaredName .)
+    LPAREN          shift and go to state 72
+    LSPAREN         shift and go to state 105
+
+
+state 62
+
+    (82) LiteralValue -> STRINGVALUE .
+
+    TIMES           reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    INTDIV          reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    REALDIV         reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    MOD             reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    PLUS            reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    MINUS           reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    EQ              reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    NEQ             reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    LT              reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    GT              reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    LTE             reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    GTE             reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    AND             reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    OR              reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    THEN            reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    DO              reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    RPAREN          reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    SEMICOLON       reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    END             reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    TO              reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    DOWNTO          reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    ELSE            reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    COMMA           reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    RSPAREN         reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+    DOTDOT          reduce using rule 82 (LiteralValue -> STRINGVALUE .)
+
+
+state 63
+
+    (83) LiteralValue -> CHARVALUE .
+
+    TIMES           reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    INTDIV          reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    REALDIV         reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    MOD             reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    PLUS            reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    MINUS           reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    EQ              reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    NEQ             reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    LT              reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    GT              reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    LTE             reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    GTE             reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    AND             reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    OR              reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    THEN            reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    DO              reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    RPAREN          reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    SEMICOLON       reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    END             reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    TO              reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    DOWNTO          reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    ELSE            reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    COMMA           reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    RSPAREN         reduce using rule 83 (LiteralValue -> CHARVALUE .)
+    DOTDOT          reduce using rule 83 (LiteralValue -> CHARVALUE .)
+
+
+state 64
+
+    (84) LiteralValue -> INTVALUE .
+
+    TIMES           reduce using rule 84 (LiteralValue -> INTVALUE .)
+    INTDIV          reduce using rule 84 (LiteralValue -> INTVALUE .)
+    REALDIV         reduce using rule 84 (LiteralValue -> INTVALUE .)
+    MOD             reduce using rule 84 (LiteralValue -> INTVALUE .)
+    PLUS            reduce using rule 84 (LiteralValue -> INTVALUE .)
+    MINUS           reduce using rule 84 (LiteralValue -> INTVALUE .)
+    EQ              reduce using rule 84 (LiteralValue -> INTVALUE .)
+    NEQ             reduce using rule 84 (LiteralValue -> INTVALUE .)
+    LT              reduce using rule 84 (LiteralValue -> INTVALUE .)
+    GT              reduce using rule 84 (LiteralValue -> INTVALUE .)
+    LTE             reduce using rule 84 (LiteralValue -> INTVALUE .)
+    GTE             reduce using rule 84 (LiteralValue -> INTVALUE .)
+    AND             reduce using rule 84 (LiteralValue -> INTVALUE .)
+    OR              reduce using rule 84 (LiteralValue -> INTVALUE .)
+    THEN            reduce using rule 84 (LiteralValue -> INTVALUE .)
+    DO              reduce using rule 84 (LiteralValue -> INTVALUE .)
+    RPAREN          reduce using rule 84 (LiteralValue -> INTVALUE .)
+    SEMICOLON       reduce using rule 84 (LiteralValue -> INTVALUE .)
+    END             reduce using rule 84 (LiteralValue -> INTVALUE .)
+    TO              reduce using rule 84 (LiteralValue -> INTVALUE .)
+    DOWNTO          reduce using rule 84 (LiteralValue -> INTVALUE .)
+    ELSE            reduce using rule 84 (LiteralValue -> INTVALUE .)
+    COMMA           reduce using rule 84 (LiteralValue -> INTVALUE .)
+    RSPAREN         reduce using rule 84 (LiteralValue -> INTVALUE .)
+    DOTDOT          reduce using rule 84 (LiteralValue -> INTVALUE .)
+
+
+state 65
+
+    (85) LiteralValue -> REALVALUE .
+
+    TIMES           reduce using rule 85 (LiteralValue -> REALVALUE .)
+    INTDIV          reduce using rule 85 (LiteralValue -> REALVALUE .)
+    REALDIV         reduce using rule 85 (LiteralValue -> REALVALUE .)
+    MOD             reduce using rule 85 (LiteralValue -> REALVALUE .)
+    PLUS            reduce using rule 85 (LiteralValue -> REALVALUE .)
+    MINUS           reduce using rule 85 (LiteralValue -> REALVALUE .)
+    EQ              reduce using rule 85 (LiteralValue -> REALVALUE .)
+    NEQ             reduce using rule 85 (LiteralValue -> REALVALUE .)
+    LT              reduce using rule 85 (LiteralValue -> REALVALUE .)
+    GT              reduce using rule 85 (LiteralValue -> REALVALUE .)
+    LTE             reduce using rule 85 (LiteralValue -> REALVALUE .)
+    GTE             reduce using rule 85 (LiteralValue -> REALVALUE .)
+    AND             reduce using rule 85 (LiteralValue -> REALVALUE .)
+    OR              reduce using rule 85 (LiteralValue -> REALVALUE .)
+    THEN            reduce using rule 85 (LiteralValue -> REALVALUE .)
+    DO              reduce using rule 85 (LiteralValue -> REALVALUE .)
+    RPAREN          reduce using rule 85 (LiteralValue -> REALVALUE .)
+    SEMICOLON       reduce using rule 85 (LiteralValue -> REALVALUE .)
+    END             reduce using rule 85 (LiteralValue -> REALVALUE .)
+    TO              reduce using rule 85 (LiteralValue -> REALVALUE .)
+    DOWNTO          reduce using rule 85 (LiteralValue -> REALVALUE .)
+    ELSE            reduce using rule 85 (LiteralValue -> REALVALUE .)
+    COMMA           reduce using rule 85 (LiteralValue -> REALVALUE .)
+    RSPAREN         reduce using rule 85 (LiteralValue -> REALVALUE .)
+    DOTDOT          reduce using rule 85 (LiteralValue -> REALVALUE .)
+
+
+state 66
+
+    (86) LiteralValue -> TRUE .
+
+    TIMES           reduce using rule 86 (LiteralValue -> TRUE .)
+    INTDIV          reduce using rule 86 (LiteralValue -> TRUE .)
+    REALDIV         reduce using rule 86 (LiteralValue -> TRUE .)
+    MOD             reduce using rule 86 (LiteralValue -> TRUE .)
+    PLUS            reduce using rule 86 (LiteralValue -> TRUE .)
+    MINUS           reduce using rule 86 (LiteralValue -> TRUE .)
+    EQ              reduce using rule 86 (LiteralValue -> TRUE .)
+    NEQ             reduce using rule 86 (LiteralValue -> TRUE .)
+    LT              reduce using rule 86 (LiteralValue -> TRUE .)
+    GT              reduce using rule 86 (LiteralValue -> TRUE .)
+    LTE             reduce using rule 86 (LiteralValue -> TRUE .)
+    GTE             reduce using rule 86 (LiteralValue -> TRUE .)
+    AND             reduce using rule 86 (LiteralValue -> TRUE .)
+    OR              reduce using rule 86 (LiteralValue -> TRUE .)
+    THEN            reduce using rule 86 (LiteralValue -> TRUE .)
+    DO              reduce using rule 86 (LiteralValue -> TRUE .)
+    RPAREN          reduce using rule 86 (LiteralValue -> TRUE .)
+    SEMICOLON       reduce using rule 86 (LiteralValue -> TRUE .)
+    END             reduce using rule 86 (LiteralValue -> TRUE .)
+    TO              reduce using rule 86 (LiteralValue -> TRUE .)
+    DOWNTO          reduce using rule 86 (LiteralValue -> TRUE .)
+    ELSE            reduce using rule 86 (LiteralValue -> TRUE .)
+    COMMA           reduce using rule 86 (LiteralValue -> TRUE .)
+    RSPAREN         reduce using rule 86 (LiteralValue -> TRUE .)
+    DOTDOT          reduce using rule 86 (LiteralValue -> TRUE .)
+
+
+state 67
+
+    (87) LiteralValue -> FALSE .
+
+    TIMES           reduce using rule 87 (LiteralValue -> FALSE .)
+    INTDIV          reduce using rule 87 (LiteralValue -> FALSE .)
+    REALDIV         reduce using rule 87 (LiteralValue -> FALSE .)
+    MOD             reduce using rule 87 (LiteralValue -> FALSE .)
+    PLUS            reduce using rule 87 (LiteralValue -> FALSE .)
+    MINUS           reduce using rule 87 (LiteralValue -> FALSE .)
+    EQ              reduce using rule 87 (LiteralValue -> FALSE .)
+    NEQ             reduce using rule 87 (LiteralValue -> FALSE .)
+    LT              reduce using rule 87 (LiteralValue -> FALSE .)
+    GT              reduce using rule 87 (LiteralValue -> FALSE .)
+    LTE             reduce using rule 87 (LiteralValue -> FALSE .)
+    GTE             reduce using rule 87 (LiteralValue -> FALSE .)
+    AND             reduce using rule 87 (LiteralValue -> FALSE .)
+    OR              reduce using rule 87 (LiteralValue -> FALSE .)
+    THEN            reduce using rule 87 (LiteralValue -> FALSE .)
+    DO              reduce using rule 87 (LiteralValue -> FALSE .)
+    RPAREN          reduce using rule 87 (LiteralValue -> FALSE .)
+    SEMICOLON       reduce using rule 87 (LiteralValue -> FALSE .)
+    END             reduce using rule 87 (LiteralValue -> FALSE .)
+    TO              reduce using rule 87 (LiteralValue -> FALSE .)
+    DOWNTO          reduce using rule 87 (LiteralValue -> FALSE .)
+    ELSE            reduce using rule 87 (LiteralValue -> FALSE .)
+    COMMA           reduce using rule 87 (LiteralValue -> FALSE .)
+    RSPAREN         reduce using rule 87 (LiteralValue -> FALSE .)
+    DOTDOT          reduce using rule 87 (LiteralValue -> FALSE .)
+
+
+state 68
+
+    (26) While -> WHILE Expression . DO Statement
+
+    DO              shift and go to state 106
+
+
+state 69
+
+    (28) For -> FOR Assignment . TO Expression DO Statement
+    (29) For -> FOR Assignment . DOWNTO Expression DO Statement
+
+    TO              shift and go to state 107
+    DOWNTO          shift and go to state 108
+
+
+state 70
+
+    (22) Assignment -> DeclaredName . ASSIGN Expression
+
+    ASSIGN          shift and go to state 71
+
+
+state 71
+
+    (22) Assignment -> DeclaredName ASSIGN . Expression
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    DeclaredName                   shift and go to state 61
+    Expression                     shift and go to state 109
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+
+state 72
+
+    (106) RoutineCall -> DeclaredName LPAREN . RPAREN
+    (107) RoutineCall -> DeclaredName LPAREN . ManyExpressions RPAREN
+    (62) ManyExpressions -> . Expression
+    (63) ManyExpressions -> . ManyExpressions COMMA Expression
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    RPAREN          shift and go to state 110
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    DeclaredName                   shift and go to state 61
+    ManyExpressions                shift and go to state 111
+    Expression                     shift and go to state 112
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+
+state 73
+
+    (37) VarDeclaration -> ManyParameterTuples SEMICOLON .
+    (46) ManyParameterTuples -> ManyParameterTuples SEMICOLON . ParameterTuple
+    (47) ParameterTuple -> . ManyDeclaredNames ReturnType
+    (48) ManyDeclaredNames -> . DeclaredName
+    (49) ManyDeclaredNames -> . ManyDeclaredNames COMMA DeclaredName
+    (90) DeclaredName -> . IDENTIFIER
+
+    BEGIN           reduce using rule 37 (VarDeclaration -> ManyParameterTuples SEMICOLON .)
+    VAR             reduce using rule 37 (VarDeclaration -> ManyParameterTuples SEMICOLON .)
+    PROCEDURE       reduce using rule 37 (VarDeclaration -> ManyParameterTuples SEMICOLON .)
+    FUNCTION        reduce using rule 37 (VarDeclaration -> ManyParameterTuples SEMICOLON .)
+    IDENTIFIER      shift and go to state 5
+
+    ParameterTuple                 shift and go to state 113
+    ManyDeclaredNames              shift and go to state 36
+    DeclaredName                   shift and go to state 37
+
+state 74
+
+    (47) ParameterTuple -> ManyDeclaredNames ReturnType .
+
+    SEMICOLON       reduce using rule 47 (ParameterTuple -> ManyDeclaredNames ReturnType .)
+    RPAREN          reduce using rule 47 (ParameterTuple -> ManyDeclaredNames ReturnType .)
+
+
+state 75
+
+    (49) ManyDeclaredNames -> ManyDeclaredNames COMMA . DeclaredName
+    (90) DeclaredName -> . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 5
+
+    DeclaredName                   shift and go to state 114
+
+state 76
+
+    (50) ReturnType -> COLON . Type
+    (51) Type -> . SimpleType
+    (52) Type -> . ArrayType
+    (53) SimpleType -> . TYPESTRING
+    (54) SimpleType -> . TYPEINT
+    (55) SimpleType -> . TYPEREAL
+    (56) SimpleType -> . TYPECHAR
+    (57) SimpleType -> . TYPEBOOL
+    (58) ArrayType -> . ARRAY LSPAREN ValueRange RSPAREN OF SimpleType
+
+    TYPESTRING      shift and go to state 118
+    TYPEINT         shift and go to state 119
+    TYPEREAL        shift and go to state 120
+    TYPECHAR        shift and go to state 121
+    TYPEBOOL        shift and go to state 122
+    ARRAY           shift and go to state 123
+
+    Type                           shift and go to state 115
+    SimpleType                     shift and go to state 116
+    ArrayType                      shift and go to state 117
+
+state 77
+
+    (38) ProcedureDeclaration -> RoutineHeading SEMICOLON . Scope SEMICOLON
+    (2) Scope -> . ManyDeclarations StatementBlock
+    (3) Scope -> . StatementBlock
+    (32) ManyDeclarations -> . Declaration
+    (33) ManyDeclarations -> . ManyDeclarations Declaration
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (34) Declaration -> . VAR VarDeclaration
+    (35) Declaration -> . PROCEDURE ProcedureDeclaration
+    (36) Declaration -> . FUNCTION FunctionDeclaration
+
+    BEGIN           shift and go to state 11
+    VAR             shift and go to state 12
+    PROCEDURE       shift and go to state 13
+    FUNCTION        shift and go to state 14
+
+    Scope                          shift and go to state 124
+    ManyDeclarations               shift and go to state 8
+    StatementBlock                 shift and go to state 9
+    Declaration                    shift and go to state 10
+
+state 78
+
+    (41) RoutineHeading -> DeclaredName RoutineParameters .
+
+    SEMICOLON       reduce using rule 41 (RoutineHeading -> DeclaredName RoutineParameters .)
+    COLON           reduce using rule 41 (RoutineHeading -> DeclaredName RoutineParameters .)
+
+
+state 79
+
+    (43) RoutineParameters -> LPAREN . RPAREN
+    (44) RoutineParameters -> LPAREN . ManyParameterTuples RPAREN
+    (45) ManyParameterTuples -> . ParameterTuple
+    (46) ManyParameterTuples -> . ManyParameterTuples SEMICOLON ParameterTuple
+    (47) ParameterTuple -> . ManyDeclaredNames ReturnType
+    (48) ManyDeclaredNames -> . DeclaredName
+    (49) ManyDeclaredNames -> . ManyDeclaredNames COMMA DeclaredName
+    (90) DeclaredName -> . IDENTIFIER
+
+    RPAREN          shift and go to state 125
+    IDENTIFIER      shift and go to state 5
+
+    ManyParameterTuples            shift and go to state 126
+    ParameterTuple                 shift and go to state 35
+    ManyDeclaredNames              shift and go to state 36
+    DeclaredName                   shift and go to state 37
+
+state 80
+
+    (39) FunctionDeclaration -> RoutineHeading ReturnType . SEMICOLON Scope SEMICOLON
+
+    SEMICOLON       shift and go to state 127
+
+
+state 81
+
+    (7) StatementBlock -> BEGIN ManyStatements TerminalSemicolons END .
+
+    DOT             reduce using rule 7 (StatementBlock -> BEGIN ManyStatements TerminalSemicolons END .)
+    SEMICOLON       reduce using rule 7 (StatementBlock -> BEGIN ManyStatements TerminalSemicolons END .)
+    END             reduce using rule 7 (StatementBlock -> BEGIN ManyStatements TerminalSemicolons END .)
+    ELSE            reduce using rule 7 (StatementBlock -> BEGIN ManyStatements TerminalSemicolons END .)
+
+
+state 82
+
+    (5) TerminalSemicolons -> SEMICOLON . TerminalSemicolons
+    (4) TerminalSemicolons -> .
+    (5) TerminalSemicolons -> . SEMICOLON TerminalSemicolons
+
+    END             reduce using rule 4 (TerminalSemicolons -> .)
+    SEMICOLON       shift and go to state 82
+
+    TerminalSemicolons             shift and go to state 84
+
+state 83
+
+    (9) ManyStatements -> ManyStatements SEMICOLON Statement .
+
+    SEMICOLON       reduce using rule 9 (ManyStatements -> ManyStatements SEMICOLON Statement .)
+    END             reduce using rule 9 (ManyStatements -> ManyStatements SEMICOLON Statement .)
+
+
+state 84
+
+    (5) TerminalSemicolons -> SEMICOLON TerminalSemicolons .
+
+    END             reduce using rule 5 (TerminalSemicolons -> SEMICOLON TerminalSemicolons .)
+
+
+state 85
+
+    (23) IfThen -> IF Expression THEN . Statement
+    (24) IfThenElse -> IF Expression THEN . ClosedStatement ELSE Statement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (15) ClosedStatement -> . NoTailStatement
+    (16) ClosedStatement -> . ClosedIfThenElse
+    (17) ClosedStatement -> . ClosedWhile
+    (18) ClosedStatement -> . ClosedFor
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (25) ClosedIfThenElse -> . IF Expression THEN ClosedStatement ELSE ClosedStatement
+    (27) ClosedWhile -> . WHILE Expression DO ClosedStatement
+    (30) ClosedFor -> . FOR Assignment TO Expression DO ClosedStatement
+    (31) ClosedFor -> . FOR Assignment DOWNTO Expression DO ClosedStatement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 128
+    WHILE           shift and go to state 135
+    FOR             shift and go to state 136
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Statement                      shift and go to state 129
+    ClosedStatement                shift and go to state 130
+    NoTailStatement                shift and go to state 131
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    ClosedIfThenElse               shift and go to state 132
+    ClosedWhile                    shift and go to state 133
+    ClosedFor                      shift and go to state 134
+    StatementBlock                 shift and go to state 26
+    Assignment                     shift and go to state 27
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 86
+
+    (66) OrExpression -> OrExpression OR . AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    AndExpression                  shift and go to state 137
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 87
+
+    (68) AndExpression -> AndExpression AND . RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    RelExpression                  shift and go to state 138
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 88
+
+    (70) RelExpression -> RelExpression RelOperator . AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    AddExpression                  shift and go to state 139
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 89
+
+    (91) RelOperator -> EQ .
+
+    PLUS            reduce using rule 91 (RelOperator -> EQ .)
+    MINUS           reduce using rule 91 (RelOperator -> EQ .)
+    NOT             reduce using rule 91 (RelOperator -> EQ .)
+    LPAREN          reduce using rule 91 (RelOperator -> EQ .)
+    STRINGVALUE     reduce using rule 91 (RelOperator -> EQ .)
+    CHARVALUE       reduce using rule 91 (RelOperator -> EQ .)
+    INTVALUE        reduce using rule 91 (RelOperator -> EQ .)
+    REALVALUE       reduce using rule 91 (RelOperator -> EQ .)
+    TRUE            reduce using rule 91 (RelOperator -> EQ .)
+    FALSE           reduce using rule 91 (RelOperator -> EQ .)
+    IDENTIFIER      reduce using rule 91 (RelOperator -> EQ .)
+
+
+state 90
+
+    (92) RelOperator -> NEQ .
+
+    PLUS            reduce using rule 92 (RelOperator -> NEQ .)
+    MINUS           reduce using rule 92 (RelOperator -> NEQ .)
+    NOT             reduce using rule 92 (RelOperator -> NEQ .)
+    LPAREN          reduce using rule 92 (RelOperator -> NEQ .)
+    STRINGVALUE     reduce using rule 92 (RelOperator -> NEQ .)
+    CHARVALUE       reduce using rule 92 (RelOperator -> NEQ .)
+    INTVALUE        reduce using rule 92 (RelOperator -> NEQ .)
+    REALVALUE       reduce using rule 92 (RelOperator -> NEQ .)
+    TRUE            reduce using rule 92 (RelOperator -> NEQ .)
+    FALSE           reduce using rule 92 (RelOperator -> NEQ .)
+    IDENTIFIER      reduce using rule 92 (RelOperator -> NEQ .)
+
+
+state 91
+
+    (93) RelOperator -> LT .
+
+    PLUS            reduce using rule 93 (RelOperator -> LT .)
+    MINUS           reduce using rule 93 (RelOperator -> LT .)
+    NOT             reduce using rule 93 (RelOperator -> LT .)
+    LPAREN          reduce using rule 93 (RelOperator -> LT .)
+    STRINGVALUE     reduce using rule 93 (RelOperator -> LT .)
+    CHARVALUE       reduce using rule 93 (RelOperator -> LT .)
+    INTVALUE        reduce using rule 93 (RelOperator -> LT .)
+    REALVALUE       reduce using rule 93 (RelOperator -> LT .)
+    TRUE            reduce using rule 93 (RelOperator -> LT .)
+    FALSE           reduce using rule 93 (RelOperator -> LT .)
+    IDENTIFIER      reduce using rule 93 (RelOperator -> LT .)
+
+
+state 92
+
+    (94) RelOperator -> GT .
+
+    PLUS            reduce using rule 94 (RelOperator -> GT .)
+    MINUS           reduce using rule 94 (RelOperator -> GT .)
+    NOT             reduce using rule 94 (RelOperator -> GT .)
+    LPAREN          reduce using rule 94 (RelOperator -> GT .)
+    STRINGVALUE     reduce using rule 94 (RelOperator -> GT .)
+    CHARVALUE       reduce using rule 94 (RelOperator -> GT .)
+    INTVALUE        reduce using rule 94 (RelOperator -> GT .)
+    REALVALUE       reduce using rule 94 (RelOperator -> GT .)
+    TRUE            reduce using rule 94 (RelOperator -> GT .)
+    FALSE           reduce using rule 94 (RelOperator -> GT .)
+    IDENTIFIER      reduce using rule 94 (RelOperator -> GT .)
+
+
+state 93
+
+    (95) RelOperator -> LTE .
+
+    PLUS            reduce using rule 95 (RelOperator -> LTE .)
+    MINUS           reduce using rule 95 (RelOperator -> LTE .)
+    NOT             reduce using rule 95 (RelOperator -> LTE .)
+    LPAREN          reduce using rule 95 (RelOperator -> LTE .)
+    STRINGVALUE     reduce using rule 95 (RelOperator -> LTE .)
+    CHARVALUE       reduce using rule 95 (RelOperator -> LTE .)
+    INTVALUE        reduce using rule 95 (RelOperator -> LTE .)
+    REALVALUE       reduce using rule 95 (RelOperator -> LTE .)
+    TRUE            reduce using rule 95 (RelOperator -> LTE .)
+    FALSE           reduce using rule 95 (RelOperator -> LTE .)
+    IDENTIFIER      reduce using rule 95 (RelOperator -> LTE .)
+
+
+state 94
+
+    (96) RelOperator -> GTE .
+
+    PLUS            reduce using rule 96 (RelOperator -> GTE .)
+    MINUS           reduce using rule 96 (RelOperator -> GTE .)
+    NOT             reduce using rule 96 (RelOperator -> GTE .)
+    LPAREN          reduce using rule 96 (RelOperator -> GTE .)
+    STRINGVALUE     reduce using rule 96 (RelOperator -> GTE .)
+    CHARVALUE       reduce using rule 96 (RelOperator -> GTE .)
+    INTVALUE        reduce using rule 96 (RelOperator -> GTE .)
+    REALVALUE       reduce using rule 96 (RelOperator -> GTE .)
+    TRUE            reduce using rule 96 (RelOperator -> GTE .)
+    FALSE           reduce using rule 96 (RelOperator -> GTE .)
+    IDENTIFIER      reduce using rule 96 (RelOperator -> GTE .)
+
+
+state 95
+
+    (72) AddExpression -> AddExpression AddOperator . MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    MultExpression                 shift and go to state 140
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 96
+
+    (97) AddOperator -> PLUS .
+
+    PLUS            reduce using rule 97 (AddOperator -> PLUS .)
+    MINUS           reduce using rule 97 (AddOperator -> PLUS .)
+    NOT             reduce using rule 97 (AddOperator -> PLUS .)
+    LPAREN          reduce using rule 97 (AddOperator -> PLUS .)
+    STRINGVALUE     reduce using rule 97 (AddOperator -> PLUS .)
+    CHARVALUE       reduce using rule 97 (AddOperator -> PLUS .)
+    INTVALUE        reduce using rule 97 (AddOperator -> PLUS .)
+    REALVALUE       reduce using rule 97 (AddOperator -> PLUS .)
+    TRUE            reduce using rule 97 (AddOperator -> PLUS .)
+    FALSE           reduce using rule 97 (AddOperator -> PLUS .)
+    IDENTIFIER      reduce using rule 97 (AddOperator -> PLUS .)
+
+
+state 97
+
+    (98) AddOperator -> MINUS .
+
+    PLUS            reduce using rule 98 (AddOperator -> MINUS .)
+    MINUS           reduce using rule 98 (AddOperator -> MINUS .)
+    NOT             reduce using rule 98 (AddOperator -> MINUS .)
+    LPAREN          reduce using rule 98 (AddOperator -> MINUS .)
+    STRINGVALUE     reduce using rule 98 (AddOperator -> MINUS .)
+    CHARVALUE       reduce using rule 98 (AddOperator -> MINUS .)
+    INTVALUE        reduce using rule 98 (AddOperator -> MINUS .)
+    REALVALUE       reduce using rule 98 (AddOperator -> MINUS .)
+    TRUE            reduce using rule 98 (AddOperator -> MINUS .)
+    FALSE           reduce using rule 98 (AddOperator -> MINUS .)
+    IDENTIFIER      reduce using rule 98 (AddOperator -> MINUS .)
+
+
+state 98
+
+    (74) MultExpression -> MultExpression MultOperator . UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    UnaryExpression                shift and go to state 141
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 99
+
+    (99) MultOperator -> TIMES .
+
+    PLUS            reduce using rule 99 (MultOperator -> TIMES .)
+    MINUS           reduce using rule 99 (MultOperator -> TIMES .)
+    NOT             reduce using rule 99 (MultOperator -> TIMES .)
+    LPAREN          reduce using rule 99 (MultOperator -> TIMES .)
+    STRINGVALUE     reduce using rule 99 (MultOperator -> TIMES .)
+    CHARVALUE       reduce using rule 99 (MultOperator -> TIMES .)
+    INTVALUE        reduce using rule 99 (MultOperator -> TIMES .)
+    REALVALUE       reduce using rule 99 (MultOperator -> TIMES .)
+    TRUE            reduce using rule 99 (MultOperator -> TIMES .)
+    FALSE           reduce using rule 99 (MultOperator -> TIMES .)
+    IDENTIFIER      reduce using rule 99 (MultOperator -> TIMES .)
+
+
+state 100
+
+    (100) MultOperator -> INTDIV .
+
+    PLUS            reduce using rule 100 (MultOperator -> INTDIV .)
+    MINUS           reduce using rule 100 (MultOperator -> INTDIV .)
+    NOT             reduce using rule 100 (MultOperator -> INTDIV .)
+    LPAREN          reduce using rule 100 (MultOperator -> INTDIV .)
+    STRINGVALUE     reduce using rule 100 (MultOperator -> INTDIV .)
+    CHARVALUE       reduce using rule 100 (MultOperator -> INTDIV .)
+    INTVALUE        reduce using rule 100 (MultOperator -> INTDIV .)
+    REALVALUE       reduce using rule 100 (MultOperator -> INTDIV .)
+    TRUE            reduce using rule 100 (MultOperator -> INTDIV .)
+    FALSE           reduce using rule 100 (MultOperator -> INTDIV .)
+    IDENTIFIER      reduce using rule 100 (MultOperator -> INTDIV .)
+
+
+state 101
+
+    (101) MultOperator -> REALDIV .
+
+    PLUS            reduce using rule 101 (MultOperator -> REALDIV .)
+    MINUS           reduce using rule 101 (MultOperator -> REALDIV .)
+    NOT             reduce using rule 101 (MultOperator -> REALDIV .)
+    LPAREN          reduce using rule 101 (MultOperator -> REALDIV .)
+    STRINGVALUE     reduce using rule 101 (MultOperator -> REALDIV .)
+    CHARVALUE       reduce using rule 101 (MultOperator -> REALDIV .)
+    INTVALUE        reduce using rule 101 (MultOperator -> REALDIV .)
+    REALVALUE       reduce using rule 101 (MultOperator -> REALDIV .)
+    TRUE            reduce using rule 101 (MultOperator -> REALDIV .)
+    FALSE           reduce using rule 101 (MultOperator -> REALDIV .)
+    IDENTIFIER      reduce using rule 101 (MultOperator -> REALDIV .)
+
+
+state 102
+
+    (102) MultOperator -> MOD .
+
+    PLUS            reduce using rule 102 (MultOperator -> MOD .)
+    MINUS           reduce using rule 102 (MultOperator -> MOD .)
+    NOT             reduce using rule 102 (MultOperator -> MOD .)
+    LPAREN          reduce using rule 102 (MultOperator -> MOD .)
+    STRINGVALUE     reduce using rule 102 (MultOperator -> MOD .)
+    CHARVALUE       reduce using rule 102 (MultOperator -> MOD .)
+    INTVALUE        reduce using rule 102 (MultOperator -> MOD .)
+    REALVALUE       reduce using rule 102 (MultOperator -> MOD .)
+    TRUE            reduce using rule 102 (MultOperator -> MOD .)
+    FALSE           reduce using rule 102 (MultOperator -> MOD .)
+    IDENTIFIER      reduce using rule 102 (MultOperator -> MOD .)
+
+
+state 103
+
+    (75) UnaryExpression -> UnaryOperator UnaryExpression .
+
+    TIMES           reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    INTDIV          reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    REALDIV         reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    MOD             reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    PLUS            reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    MINUS           reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    EQ              reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    NEQ             reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    LT              reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    GT              reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    LTE             reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    GTE             reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    AND             reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    OR              reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    THEN            reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    DO              reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    RPAREN          reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    SEMICOLON       reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    END             reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    TO              reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    DOWNTO          reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    ELSE            reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    COMMA           reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+    RSPAREN         reduce using rule 75 (UnaryExpression -> UnaryOperator UnaryExpression .)
+
+
+state 104
+
+    (78) PrimaryExpression -> LPAREN Expression . RPAREN
+
+    RPAREN          shift and go to state 142
+
+
+state 105
+
+    (88) ArrayAccess -> DeclaredName LSPAREN . RSPAREN
+    (89) ArrayAccess -> DeclaredName LSPAREN . Expression RSPAREN
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    RSPAREN         shift and go to state 143
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    DeclaredName                   shift and go to state 61
+    Expression                     shift and go to state 144
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+
+state 106
+
+    (26) While -> WHILE Expression DO . Statement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+    FOR             shift and go to state 31
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Statement                      shift and go to state 145
+    NoTailStatement                shift and go to state 21
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    StatementBlock                 shift and go to state 26
+    Assignment                     shift and go to state 27
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 107
+
+    (28) For -> FOR Assignment TO . Expression DO Statement
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 146
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 108
+
+    (29) For -> FOR Assignment DOWNTO . Expression DO Statement
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 147
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 109
+
+    (22) Assignment -> DeclaredName ASSIGN Expression .
+
+    SEMICOLON       reduce using rule 22 (Assignment -> DeclaredName ASSIGN Expression .)
+    END             reduce using rule 22 (Assignment -> DeclaredName ASSIGN Expression .)
+    TO              reduce using rule 22 (Assignment -> DeclaredName ASSIGN Expression .)
+    DOWNTO          reduce using rule 22 (Assignment -> DeclaredName ASSIGN Expression .)
+    ELSE            reduce using rule 22 (Assignment -> DeclaredName ASSIGN Expression .)
+
+
+state 110
+
+    (106) RoutineCall -> DeclaredName LPAREN RPAREN .
+
+    SEMICOLON       reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    END             reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    TIMES           reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    INTDIV          reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    REALDIV         reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    MOD             reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    PLUS            reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    MINUS           reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    EQ              reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    NEQ             reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    LT              reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    GT              reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    LTE             reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    GTE             reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    AND             reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    OR              reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    THEN            reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    DO              reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    RPAREN          reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    TO              reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    DOWNTO          reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    ELSE            reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    COMMA           reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+    RSPAREN         reduce using rule 106 (RoutineCall -> DeclaredName LPAREN RPAREN .)
+
+
+state 111
+
+    (107) RoutineCall -> DeclaredName LPAREN ManyExpressions . RPAREN
+    (63) ManyExpressions -> ManyExpressions . COMMA Expression
+
+    RPAREN          shift and go to state 148
+    COMMA           shift and go to state 149
+
+
+state 112
+
+    (62) ManyExpressions -> Expression .
+
+    RPAREN          reduce using rule 62 (ManyExpressions -> Expression .)
+    COMMA           reduce using rule 62 (ManyExpressions -> Expression .)
+
+
+state 113
+
+    (46) ManyParameterTuples -> ManyParameterTuples SEMICOLON ParameterTuple .
+
+    SEMICOLON       reduce using rule 46 (ManyParameterTuples -> ManyParameterTuples SEMICOLON ParameterTuple .)
+    RPAREN          reduce using rule 46 (ManyParameterTuples -> ManyParameterTuples SEMICOLON ParameterTuple .)
+
+
+state 114
+
+    (49) ManyDeclaredNames -> ManyDeclaredNames COMMA DeclaredName .
+
+    COMMA           reduce using rule 49 (ManyDeclaredNames -> ManyDeclaredNames COMMA DeclaredName .)
+    COLON           reduce using rule 49 (ManyDeclaredNames -> ManyDeclaredNames COMMA DeclaredName .)
+
+
+state 115
+
+    (50) ReturnType -> COLON Type .
+
+    SEMICOLON       reduce using rule 50 (ReturnType -> COLON Type .)
+    RPAREN          reduce using rule 50 (ReturnType -> COLON Type .)
+
+
+state 116
+
+    (51) Type -> SimpleType .
+
+    SEMICOLON       reduce using rule 51 (Type -> SimpleType .)
+    RPAREN          reduce using rule 51 (Type -> SimpleType .)
+
+
+state 117
+
+    (52) Type -> ArrayType .
+
+    SEMICOLON       reduce using rule 52 (Type -> ArrayType .)
+    RPAREN          reduce using rule 52 (Type -> ArrayType .)
+
+
+state 118
+
+    (53) SimpleType -> TYPESTRING .
+
+    SEMICOLON       reduce using rule 53 (SimpleType -> TYPESTRING .)
+    RPAREN          reduce using rule 53 (SimpleType -> TYPESTRING .)
+
+
+state 119
+
+    (54) SimpleType -> TYPEINT .
+
+    SEMICOLON       reduce using rule 54 (SimpleType -> TYPEINT .)
+    RPAREN          reduce using rule 54 (SimpleType -> TYPEINT .)
+
+
+state 120
+
+    (55) SimpleType -> TYPEREAL .
+
+    SEMICOLON       reduce using rule 55 (SimpleType -> TYPEREAL .)
+    RPAREN          reduce using rule 55 (SimpleType -> TYPEREAL .)
+
+
+state 121
+
+    (56) SimpleType -> TYPECHAR .
+
+    SEMICOLON       reduce using rule 56 (SimpleType -> TYPECHAR .)
+    RPAREN          reduce using rule 56 (SimpleType -> TYPECHAR .)
+
+
+state 122
+
+    (57) SimpleType -> TYPEBOOL .
+
+    SEMICOLON       reduce using rule 57 (SimpleType -> TYPEBOOL .)
+    RPAREN          reduce using rule 57 (SimpleType -> TYPEBOOL .)
+
+
+state 123
+
+    (58) ArrayType -> ARRAY . LSPAREN ValueRange RSPAREN OF SimpleType
+
+    LSPAREN         shift and go to state 150
+
+
+state 124
+
+    (38) ProcedureDeclaration -> RoutineHeading SEMICOLON Scope . SEMICOLON
+
+    SEMICOLON       shift and go to state 151
+
+
+state 125
+
+    (43) RoutineParameters -> LPAREN RPAREN .
+
+    SEMICOLON       reduce using rule 43 (RoutineParameters -> LPAREN RPAREN .)
+    COLON           reduce using rule 43 (RoutineParameters -> LPAREN RPAREN .)
+
+
+state 126
+
+    (44) RoutineParameters -> LPAREN ManyParameterTuples . RPAREN
+    (46) ManyParameterTuples -> ManyParameterTuples . SEMICOLON ParameterTuple
+
+    RPAREN          shift and go to state 152
+    SEMICOLON       shift and go to state 153
+
+
+state 127
+
+    (39) FunctionDeclaration -> RoutineHeading ReturnType SEMICOLON . Scope SEMICOLON
+    (2) Scope -> . ManyDeclarations StatementBlock
+    (3) Scope -> . StatementBlock
+    (32) ManyDeclarations -> . Declaration
+    (33) ManyDeclarations -> . ManyDeclarations Declaration
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (34) Declaration -> . VAR VarDeclaration
+    (35) Declaration -> . PROCEDURE ProcedureDeclaration
+    (36) Declaration -> . FUNCTION FunctionDeclaration
+
+    BEGIN           shift and go to state 11
+    VAR             shift and go to state 12
+    PROCEDURE       shift and go to state 13
+    FUNCTION        shift and go to state 14
+
+    Scope                          shift and go to state 154
+    ManyDeclarations               shift and go to state 8
+    StatementBlock                 shift and go to state 9
+    Declaration                    shift and go to state 10
+
+state 128
+
+    (23) IfThen -> IF . Expression THEN Statement
+    (24) IfThenElse -> IF . Expression THEN ClosedStatement ELSE Statement
+    (25) ClosedIfThenElse -> IF . Expression THEN ClosedStatement ELSE ClosedStatement
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 155
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 129
+
+    (23) IfThen -> IF Expression THEN Statement .
+
+    SEMICOLON       reduce using rule 23 (IfThen -> IF Expression THEN Statement .)
+    END             reduce using rule 23 (IfThen -> IF Expression THEN Statement .)
+
+
+state 130
+
+    (24) IfThenElse -> IF Expression THEN ClosedStatement . ELSE Statement
+
+    ELSE            shift and go to state 156
+
+
+state 131
+
+    (10) Statement -> NoTailStatement .
+    (15) ClosedStatement -> NoTailStatement .
+
+    SEMICOLON       reduce using rule 10 (Statement -> NoTailStatement .)
+    END             reduce using rule 10 (Statement -> NoTailStatement .)
+    ELSE            reduce using rule 15 (ClosedStatement -> NoTailStatement .)
+
+
+state 132
+
+    (16) ClosedStatement -> ClosedIfThenElse .
+
+    ELSE            reduce using rule 16 (ClosedStatement -> ClosedIfThenElse .)
+
+
+state 133
+
+    (17) ClosedStatement -> ClosedWhile .
+
+    ELSE            reduce using rule 17 (ClosedStatement -> ClosedWhile .)
+
+
+state 134
+
+    (18) ClosedStatement -> ClosedFor .
+
+    ELSE            reduce using rule 18 (ClosedStatement -> ClosedFor .)
+
+
+state 135
+
+    (26) While -> WHILE . Expression DO Statement
+    (27) ClosedWhile -> WHILE . Expression DO ClosedStatement
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 157
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 136
+
+    (28) For -> FOR . Assignment TO Expression DO Statement
+    (29) For -> FOR . Assignment DOWNTO Expression DO Statement
+    (30) ClosedFor -> FOR . Assignment TO Expression DO ClosedStatement
+    (31) ClosedFor -> FOR . Assignment DOWNTO Expression DO ClosedStatement
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (90) DeclaredName -> . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 5
+
+    Assignment                     shift and go to state 158
+    DeclaredName                   shift and go to state 70
+
+state 137
+
+    (66) OrExpression -> OrExpression OR AndExpression .
+    (68) AndExpression -> AndExpression . AND RelExpression
+
+    OR              reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    THEN            reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    DO              reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    RPAREN          reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    SEMICOLON       reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    END             reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    TO              reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    DOWNTO          reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    ELSE            reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    COMMA           reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    RSPAREN         reduce using rule 66 (OrExpression -> OrExpression OR AndExpression .)
+    AND             shift and go to state 87
+
+
+state 138
+
+    (68) AndExpression -> AndExpression AND RelExpression .
+    (70) RelExpression -> RelExpression . RelOperator AddExpression
+    (91) RelOperator -> . EQ
+    (92) RelOperator -> . NEQ
+    (93) RelOperator -> . LT
+    (94) RelOperator -> . GT
+    (95) RelOperator -> . LTE
+    (96) RelOperator -> . GTE
+
+    AND             reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    OR              reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    THEN            reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    DO              reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    RPAREN          reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    SEMICOLON       reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    END             reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    TO              reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    DOWNTO          reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    ELSE            reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    COMMA           reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    RSPAREN         reduce using rule 68 (AndExpression -> AndExpression AND RelExpression .)
+    EQ              shift and go to state 89
+    NEQ             shift and go to state 90
+    LT              shift and go to state 91
+    GT              shift and go to state 92
+    LTE             shift and go to state 93
+    GTE             shift and go to state 94
+
+    RelOperator                    shift and go to state 88
+
+state 139
+
+    (70) RelExpression -> RelExpression RelOperator AddExpression .
+    (72) AddExpression -> AddExpression . AddOperator MultExpression
+    (97) AddOperator -> . PLUS
+    (98) AddOperator -> . MINUS
+
+    EQ              reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    NEQ             reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    LT              reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    GT              reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    LTE             reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    GTE             reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    AND             reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    OR              reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    THEN            reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    DO              reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    RPAREN          reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    SEMICOLON       reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    END             reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    TO              reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    DOWNTO          reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    ELSE            reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    COMMA           reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    RSPAREN         reduce using rule 70 (RelExpression -> RelExpression RelOperator AddExpression .)
+    PLUS            shift and go to state 96
+    MINUS           shift and go to state 97
+
+    AddOperator                    shift and go to state 95
+
+state 140
+
+    (72) AddExpression -> AddExpression AddOperator MultExpression .
+    (74) MultExpression -> MultExpression . MultOperator UnaryExpression
+    (99) MultOperator -> . TIMES
+    (100) MultOperator -> . INTDIV
+    (101) MultOperator -> . REALDIV
+    (102) MultOperator -> . MOD
+
+    PLUS            reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    MINUS           reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    EQ              reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    NEQ             reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    LT              reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    GT              reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    LTE             reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    GTE             reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    AND             reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    OR              reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    THEN            reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    DO              reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    RPAREN          reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    SEMICOLON       reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    END             reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    TO              reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    DOWNTO          reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    ELSE            reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    COMMA           reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    RSPAREN         reduce using rule 72 (AddExpression -> AddExpression AddOperator MultExpression .)
+    TIMES           shift and go to state 99
+    INTDIV          shift and go to state 100
+    REALDIV         shift and go to state 101
+    MOD             shift and go to state 102
+
+    MultOperator                   shift and go to state 98
+
+state 141
+
+    (74) MultExpression -> MultExpression MultOperator UnaryExpression .
+
+    TIMES           reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    INTDIV          reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    REALDIV         reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    MOD             reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    PLUS            reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    MINUS           reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    EQ              reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    NEQ             reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    LT              reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    GT              reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    LTE             reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    GTE             reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    AND             reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    OR              reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    THEN            reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    DO              reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    RPAREN          reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    SEMICOLON       reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    END             reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    TO              reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    DOWNTO          reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    ELSE            reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    COMMA           reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+    RSPAREN         reduce using rule 74 (MultExpression -> MultExpression MultOperator UnaryExpression .)
+
+
+state 142
+
+    (78) PrimaryExpression -> LPAREN Expression RPAREN .
+
+    TIMES           reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    INTDIV          reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    REALDIV         reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    MOD             reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    PLUS            reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    MINUS           reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    EQ              reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    NEQ             reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    LT              reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    GT              reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    LTE             reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    GTE             reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    AND             reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    OR              reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    THEN            reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    DO              reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    RPAREN          reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    SEMICOLON       reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    END             reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    TO              reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    DOWNTO          reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    ELSE            reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    COMMA           reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+    RSPAREN         reduce using rule 78 (PrimaryExpression -> LPAREN Expression RPAREN .)
+
+
+state 143
+
+    (88) ArrayAccess -> DeclaredName LSPAREN RSPAREN .
+
+    TIMES           reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    INTDIV          reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    REALDIV         reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    MOD             reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    PLUS            reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    MINUS           reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    EQ              reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    NEQ             reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    LT              reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    GT              reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    LTE             reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    GTE             reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    AND             reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    OR              reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    THEN            reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    DO              reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    RPAREN          reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    SEMICOLON       reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    END             reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    TO              reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    DOWNTO          reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    ELSE            reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    COMMA           reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+    RSPAREN         reduce using rule 88 (ArrayAccess -> DeclaredName LSPAREN RSPAREN .)
+
+
+state 144
+
+    (89) ArrayAccess -> DeclaredName LSPAREN Expression . RSPAREN
+
+    RSPAREN         shift and go to state 159
+
+
+state 145
+
+    (26) While -> WHILE Expression DO Statement .
+
+    SEMICOLON       reduce using rule 26 (While -> WHILE Expression DO Statement .)
+    END             reduce using rule 26 (While -> WHILE Expression DO Statement .)
+
+
+state 146
+
+    (28) For -> FOR Assignment TO Expression . DO Statement
+
+    DO              shift and go to state 160
+
+
+state 147
+
+    (29) For -> FOR Assignment DOWNTO Expression . DO Statement
+
+    DO              shift and go to state 161
+
+
+state 148
+
+    (107) RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .
+
+    SEMICOLON       reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    END             reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    TIMES           reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    INTDIV          reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    REALDIV         reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    MOD             reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    PLUS            reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    MINUS           reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    EQ              reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    NEQ             reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    LT              reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    GT              reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    LTE             reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    GTE             reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    AND             reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    OR              reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    THEN            reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    DO              reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    RPAREN          reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    TO              reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    DOWNTO          reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    ELSE            reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    COMMA           reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+    RSPAREN         reduce using rule 107 (RoutineCall -> DeclaredName LPAREN ManyExpressions RPAREN .)
+
+
+state 149
+
+    (63) ManyExpressions -> ManyExpressions COMMA . Expression
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 162
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 150
+
+    (58) ArrayType -> ARRAY LSPAREN . ValueRange RSPAREN OF SimpleType
+    (59) ValueRange -> . ConstantValue DOTDOT ConstantValue
+    (60) ConstantValue -> . LiteralValue
+    (61) ConstantValue -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (90) DeclaredName -> . IDENTIFIER
+
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    ValueRange                     shift and go to state 163
+    ConstantValue                  shift and go to state 164
+    LiteralValue                   shift and go to state 165
+    DeclaredName                   shift and go to state 166
+
+state 151
+
+    (38) ProcedureDeclaration -> RoutineHeading SEMICOLON Scope SEMICOLON .
+
+    BEGIN           reduce using rule 38 (ProcedureDeclaration -> RoutineHeading SEMICOLON Scope SEMICOLON .)
+    VAR             reduce using rule 38 (ProcedureDeclaration -> RoutineHeading SEMICOLON Scope SEMICOLON .)
+    PROCEDURE       reduce using rule 38 (ProcedureDeclaration -> RoutineHeading SEMICOLON Scope SEMICOLON .)
+    FUNCTION        reduce using rule 38 (ProcedureDeclaration -> RoutineHeading SEMICOLON Scope SEMICOLON .)
+
+
+state 152
+
+    (44) RoutineParameters -> LPAREN ManyParameterTuples RPAREN .
+
+    SEMICOLON       reduce using rule 44 (RoutineParameters -> LPAREN ManyParameterTuples RPAREN .)
+    COLON           reduce using rule 44 (RoutineParameters -> LPAREN ManyParameterTuples RPAREN .)
+
+
+state 153
+
+    (46) ManyParameterTuples -> ManyParameterTuples SEMICOLON . ParameterTuple
+    (47) ParameterTuple -> . ManyDeclaredNames ReturnType
+    (48) ManyDeclaredNames -> . DeclaredName
+    (49) ManyDeclaredNames -> . ManyDeclaredNames COMMA DeclaredName
+    (90) DeclaredName -> . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 5
+
+    ParameterTuple                 shift and go to state 113
+    ManyDeclaredNames              shift and go to state 36
+    DeclaredName                   shift and go to state 37
+
+state 154
+
+    (39) FunctionDeclaration -> RoutineHeading ReturnType SEMICOLON Scope . SEMICOLON
+
+    SEMICOLON       shift and go to state 167
+
+
+state 155
+
+    (23) IfThen -> IF Expression . THEN Statement
+    (24) IfThenElse -> IF Expression . THEN ClosedStatement ELSE Statement
+    (25) ClosedIfThenElse -> IF Expression . THEN ClosedStatement ELSE ClosedStatement
+
+    THEN            shift and go to state 168
+
+
+state 156
+
+    (24) IfThenElse -> IF Expression THEN ClosedStatement ELSE . Statement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+    FOR             shift and go to state 31
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Statement                      shift and go to state 169
+    NoTailStatement                shift and go to state 21
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    StatementBlock                 shift and go to state 26
+    Assignment                     shift and go to state 27
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 157
+
+    (26) While -> WHILE Expression . DO Statement
+    (27) ClosedWhile -> WHILE Expression . DO ClosedStatement
+
+    DO              shift and go to state 170
+
+
+state 158
+
+    (28) For -> FOR Assignment . TO Expression DO Statement
+    (29) For -> FOR Assignment . DOWNTO Expression DO Statement
+    (30) ClosedFor -> FOR Assignment . TO Expression DO ClosedStatement
+    (31) ClosedFor -> FOR Assignment . DOWNTO Expression DO ClosedStatement
+
+    TO              shift and go to state 171
+    DOWNTO          shift and go to state 172
+
+
+state 159
+
+    (89) ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .
+
+    TIMES           reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    INTDIV          reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    REALDIV         reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    MOD             reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    PLUS            reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    MINUS           reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    EQ              reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    NEQ             reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    LT              reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    GT              reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    LTE             reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    GTE             reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    AND             reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    OR              reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    THEN            reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    DO              reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    RPAREN          reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    SEMICOLON       reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    END             reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    TO              reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    DOWNTO          reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    ELSE            reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    COMMA           reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+    RSPAREN         reduce using rule 89 (ArrayAccess -> DeclaredName LSPAREN Expression RSPAREN .)
+
+
+state 160
+
+    (28) For -> FOR Assignment TO Expression DO . Statement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+    FOR             shift and go to state 31
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Assignment                     shift and go to state 27
+    Statement                      shift and go to state 173
+    NoTailStatement                shift and go to state 21
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    StatementBlock                 shift and go to state 26
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 161
+
+    (29) For -> FOR Assignment DOWNTO Expression DO . Statement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 29
+    WHILE           shift and go to state 30
+    FOR             shift and go to state 31
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Assignment                     shift and go to state 27
+    Statement                      shift and go to state 174
+    NoTailStatement                shift and go to state 21
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    StatementBlock                 shift and go to state 26
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 162
+
+    (63) ManyExpressions -> ManyExpressions COMMA Expression .
+
+    RPAREN          reduce using rule 63 (ManyExpressions -> ManyExpressions COMMA Expression .)
+    COMMA           reduce using rule 63 (ManyExpressions -> ManyExpressions COMMA Expression .)
+
+
+state 163
+
+    (58) ArrayType -> ARRAY LSPAREN ValueRange . RSPAREN OF SimpleType
+
+    RSPAREN         shift and go to state 175
+
+
+state 164
+
+    (59) ValueRange -> ConstantValue . DOTDOT ConstantValue
+
+    DOTDOT          shift and go to state 176
+
+
+state 165
+
+    (60) ConstantValue -> LiteralValue .
+
+    DOTDOT          reduce using rule 60 (ConstantValue -> LiteralValue .)
+    RSPAREN         reduce using rule 60 (ConstantValue -> LiteralValue .)
+
+
+state 166
+
+    (61) ConstantValue -> DeclaredName .
+
+    DOTDOT          reduce using rule 61 (ConstantValue -> DeclaredName .)
+    RSPAREN         reduce using rule 61 (ConstantValue -> DeclaredName .)
+
+
+state 167
+
+    (39) FunctionDeclaration -> RoutineHeading ReturnType SEMICOLON Scope SEMICOLON .
+
+    BEGIN           reduce using rule 39 (FunctionDeclaration -> RoutineHeading ReturnType SEMICOLON Scope SEMICOLON .)
+    VAR             reduce using rule 39 (FunctionDeclaration -> RoutineHeading ReturnType SEMICOLON Scope SEMICOLON .)
+    PROCEDURE       reduce using rule 39 (FunctionDeclaration -> RoutineHeading ReturnType SEMICOLON Scope SEMICOLON .)
+    FUNCTION        reduce using rule 39 (FunctionDeclaration -> RoutineHeading ReturnType SEMICOLON Scope SEMICOLON .)
+
+
+state 168
+
+    (23) IfThen -> IF Expression THEN . Statement
+    (24) IfThenElse -> IF Expression THEN . ClosedStatement ELSE Statement
+    (25) ClosedIfThenElse -> IF Expression THEN . ClosedStatement ELSE ClosedStatement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (15) ClosedStatement -> . NoTailStatement
+    (16) ClosedStatement -> . ClosedIfThenElse
+    (17) ClosedStatement -> . ClosedWhile
+    (18) ClosedStatement -> . ClosedFor
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (25) ClosedIfThenElse -> . IF Expression THEN ClosedStatement ELSE ClosedStatement
+    (27) ClosedWhile -> . WHILE Expression DO ClosedStatement
+    (30) ClosedFor -> . FOR Assignment TO Expression DO ClosedStatement
+    (31) ClosedFor -> . FOR Assignment DOWNTO Expression DO ClosedStatement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 128
+    WHILE           shift and go to state 135
+    FOR             shift and go to state 136
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Statement                      shift and go to state 129
+    ClosedStatement                shift and go to state 177
+    NoTailStatement                shift and go to state 131
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    ClosedIfThenElse               shift and go to state 132
+    ClosedWhile                    shift and go to state 133
+    ClosedFor                      shift and go to state 134
+    StatementBlock                 shift and go to state 26
+    Assignment                     shift and go to state 27
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 169
+
+    (24) IfThenElse -> IF Expression THEN ClosedStatement ELSE Statement .
+
+    SEMICOLON       reduce using rule 24 (IfThenElse -> IF Expression THEN ClosedStatement ELSE Statement .)
+    END             reduce using rule 24 (IfThenElse -> IF Expression THEN ClosedStatement ELSE Statement .)
+
+
+state 170
+
+    (26) While -> WHILE Expression DO . Statement
+    (27) ClosedWhile -> WHILE Expression DO . ClosedStatement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (15) ClosedStatement -> . NoTailStatement
+    (16) ClosedStatement -> . ClosedIfThenElse
+    (17) ClosedStatement -> . ClosedWhile
+    (18) ClosedStatement -> . ClosedFor
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (25) ClosedIfThenElse -> . IF Expression THEN ClosedStatement ELSE ClosedStatement
+    (27) ClosedWhile -> . WHILE Expression DO ClosedStatement
+    (30) ClosedFor -> . FOR Assignment TO Expression DO ClosedStatement
+    (31) ClosedFor -> . FOR Assignment DOWNTO Expression DO ClosedStatement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 128
+    WHILE           shift and go to state 135
+    FOR             shift and go to state 136
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Statement                      shift and go to state 145
+    ClosedStatement                shift and go to state 178
+    NoTailStatement                shift and go to state 131
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    ClosedIfThenElse               shift and go to state 132
+    ClosedWhile                    shift and go to state 133
+    ClosedFor                      shift and go to state 134
+    StatementBlock                 shift and go to state 26
+    Assignment                     shift and go to state 27
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 171
+
+    (28) For -> FOR Assignment TO . Expression DO Statement
+    (30) ClosedFor -> FOR Assignment TO . Expression DO ClosedStatement
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 179
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 172
+
+    (29) For -> FOR Assignment DOWNTO . Expression DO Statement
+    (31) ClosedFor -> FOR Assignment DOWNTO . Expression DO ClosedStatement
+    (64) Expression -> . OrExpression
+    (65) OrExpression -> . AndExpression
+    (66) OrExpression -> . OrExpression OR AndExpression
+    (67) AndExpression -> . RelExpression
+    (68) AndExpression -> . AndExpression AND RelExpression
+    (69) RelExpression -> . AddExpression
+    (70) RelExpression -> . RelExpression RelOperator AddExpression
+    (71) AddExpression -> . MultExpression
+    (72) AddExpression -> . AddExpression AddOperator MultExpression
+    (73) MultExpression -> . UnaryExpression
+    (74) MultExpression -> . MultExpression MultOperator UnaryExpression
+    (75) UnaryExpression -> . UnaryOperator UnaryExpression
+    (76) UnaryExpression -> . PrimaryExpression
+    (103) UnaryOperator -> . PLUS
+    (104) UnaryOperator -> . MINUS
+    (105) UnaryOperator -> . NOT
+    (77) PrimaryExpression -> . LiteralValue
+    (78) PrimaryExpression -> . LPAREN Expression RPAREN
+    (79) PrimaryExpression -> . RoutineCall
+    (80) PrimaryExpression -> . ArrayAccess
+    (81) PrimaryExpression -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (88) ArrayAccess -> . DeclaredName LSPAREN RSPAREN
+    (89) ArrayAccess -> . DeclaredName LSPAREN Expression RSPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+    NOT             shift and go to state 56
+    LPAREN          shift and go to state 58
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    Expression                     shift and go to state 180
+    OrExpression                   shift and go to state 46
+    AndExpression                  shift and go to state 47
+    RelExpression                  shift and go to state 48
+    AddExpression                  shift and go to state 49
+    MultExpression                 shift and go to state 50
+    UnaryExpression                shift and go to state 51
+    UnaryOperator                  shift and go to state 52
+    PrimaryExpression              shift and go to state 53
+    LiteralValue                   shift and go to state 57
+    RoutineCall                    shift and go to state 59
+    ArrayAccess                    shift and go to state 60
+    DeclaredName                   shift and go to state 61
+
+state 173
+
+    (28) For -> FOR Assignment TO Expression DO Statement .
+
+    SEMICOLON       reduce using rule 28 (For -> FOR Assignment TO Expression DO Statement .)
+    END             reduce using rule 28 (For -> FOR Assignment TO Expression DO Statement .)
+
+
+state 174
+
+    (29) For -> FOR Assignment DOWNTO Expression DO Statement .
+
+    SEMICOLON       reduce using rule 29 (For -> FOR Assignment DOWNTO Expression DO Statement .)
+    END             reduce using rule 29 (For -> FOR Assignment DOWNTO Expression DO Statement .)
+
+
+state 175
+
+    (58) ArrayType -> ARRAY LSPAREN ValueRange RSPAREN . OF SimpleType
+
+    OF              shift and go to state 181
+
+
+state 176
+
+    (59) ValueRange -> ConstantValue DOTDOT . ConstantValue
+    (60) ConstantValue -> . LiteralValue
+    (61) ConstantValue -> . DeclaredName
+    (82) LiteralValue -> . STRINGVALUE
+    (83) LiteralValue -> . CHARVALUE
+    (84) LiteralValue -> . INTVALUE
+    (85) LiteralValue -> . REALVALUE
+    (86) LiteralValue -> . TRUE
+    (87) LiteralValue -> . FALSE
+    (90) DeclaredName -> . IDENTIFIER
+
+    STRINGVALUE     shift and go to state 62
+    CHARVALUE       shift and go to state 63
+    INTVALUE        shift and go to state 64
+    REALVALUE       shift and go to state 65
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    IDENTIFIER      shift and go to state 5
+
+    ConstantValue                  shift and go to state 182
+    LiteralValue                   shift and go to state 165
+    DeclaredName                   shift and go to state 166
+
+state 177
+
+    (24) IfThenElse -> IF Expression THEN ClosedStatement . ELSE Statement
+    (25) ClosedIfThenElse -> IF Expression THEN ClosedStatement . ELSE ClosedStatement
+
+    ELSE            shift and go to state 183
+
+
+state 178
+
+    (27) ClosedWhile -> WHILE Expression DO ClosedStatement .
+
+    ELSE            reduce using rule 27 (ClosedWhile -> WHILE Expression DO ClosedStatement .)
+
+
+state 179
+
+    (28) For -> FOR Assignment TO Expression . DO Statement
+    (30) ClosedFor -> FOR Assignment TO Expression . DO ClosedStatement
+
+    DO              shift and go to state 184
+
+
+state 180
+
+    (29) For -> FOR Assignment DOWNTO Expression . DO Statement
+    (31) ClosedFor -> FOR Assignment DOWNTO Expression . DO ClosedStatement
+
+    DO              shift and go to state 185
+
+
+state 181
+
+    (58) ArrayType -> ARRAY LSPAREN ValueRange RSPAREN OF . SimpleType
+    (53) SimpleType -> . TYPESTRING
+    (54) SimpleType -> . TYPEINT
+    (55) SimpleType -> . TYPEREAL
+    (56) SimpleType -> . TYPECHAR
+    (57) SimpleType -> . TYPEBOOL
+
+    TYPESTRING      shift and go to state 118
+    TYPEINT         shift and go to state 119
+    TYPEREAL        shift and go to state 120
+    TYPECHAR        shift and go to state 121
+    TYPEBOOL        shift and go to state 122
+
+    SimpleType                     shift and go to state 186
+
+state 182
+
+    (59) ValueRange -> ConstantValue DOTDOT ConstantValue .
+
+    RSPAREN         reduce using rule 59 (ValueRange -> ConstantValue DOTDOT ConstantValue .)
+
+
+state 183
+
+    (24) IfThenElse -> IF Expression THEN ClosedStatement ELSE . Statement
+    (25) ClosedIfThenElse -> IF Expression THEN ClosedStatement ELSE . ClosedStatement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (15) ClosedStatement -> . NoTailStatement
+    (16) ClosedStatement -> . ClosedIfThenElse
+    (17) ClosedStatement -> . ClosedWhile
+    (18) ClosedStatement -> . ClosedFor
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (25) ClosedIfThenElse -> . IF Expression THEN ClosedStatement ELSE ClosedStatement
+    (27) ClosedWhile -> . WHILE Expression DO ClosedStatement
+    (30) ClosedFor -> . FOR Assignment TO Expression DO ClosedStatement
+    (31) ClosedFor -> . FOR Assignment DOWNTO Expression DO ClosedStatement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 128
+    WHILE           shift and go to state 135
+    FOR             shift and go to state 136
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    ClosedStatement                shift and go to state 187
+    Statement                      shift and go to state 169
+    NoTailStatement                shift and go to state 131
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    ClosedIfThenElse               shift and go to state 132
+    ClosedWhile                    shift and go to state 133
+    ClosedFor                      shift and go to state 134
+    StatementBlock                 shift and go to state 26
+    Assignment                     shift and go to state 27
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 184
+
+    (28) For -> FOR Assignment TO Expression DO . Statement
+    (30) ClosedFor -> FOR Assignment TO Expression DO . ClosedStatement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (15) ClosedStatement -> . NoTailStatement
+    (16) ClosedStatement -> . ClosedIfThenElse
+    (17) ClosedStatement -> . ClosedWhile
+    (18) ClosedStatement -> . ClosedFor
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (25) ClosedIfThenElse -> . IF Expression THEN ClosedStatement ELSE ClosedStatement
+    (27) ClosedWhile -> . WHILE Expression DO ClosedStatement
+    (30) ClosedFor -> . FOR Assignment TO Expression DO ClosedStatement
+    (31) ClosedFor -> . FOR Assignment DOWNTO Expression DO ClosedStatement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 128
+    WHILE           shift and go to state 135
+    FOR             shift and go to state 136
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Assignment                     shift and go to state 27
+    Statement                      shift and go to state 173
+    ClosedStatement                shift and go to state 188
+    NoTailStatement                shift and go to state 131
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    ClosedIfThenElse               shift and go to state 132
+    ClosedWhile                    shift and go to state 133
+    ClosedFor                      shift and go to state 134
+    StatementBlock                 shift and go to state 26
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 185
+
+    (29) For -> FOR Assignment DOWNTO Expression DO . Statement
+    (31) ClosedFor -> FOR Assignment DOWNTO Expression DO . ClosedStatement
+    (10) Statement -> . NoTailStatement
+    (11) Statement -> . IfThen
+    (12) Statement -> . IfThenElse
+    (13) Statement -> . While
+    (14) Statement -> . For
+    (15) ClosedStatement -> . NoTailStatement
+    (16) ClosedStatement -> . ClosedIfThenElse
+    (17) ClosedStatement -> . ClosedWhile
+    (18) ClosedStatement -> . ClosedFor
+    (19) NoTailStatement -> . StatementBlock
+    (20) NoTailStatement -> . Assignment
+    (21) NoTailStatement -> . RoutineCall
+    (23) IfThen -> . IF Expression THEN Statement
+    (24) IfThenElse -> . IF Expression THEN ClosedStatement ELSE Statement
+    (26) While -> . WHILE Expression DO Statement
+    (28) For -> . FOR Assignment TO Expression DO Statement
+    (29) For -> . FOR Assignment DOWNTO Expression DO Statement
+    (25) ClosedIfThenElse -> . IF Expression THEN ClosedStatement ELSE ClosedStatement
+    (27) ClosedWhile -> . WHILE Expression DO ClosedStatement
+    (30) ClosedFor -> . FOR Assignment TO Expression DO ClosedStatement
+    (31) ClosedFor -> . FOR Assignment DOWNTO Expression DO ClosedStatement
+    (6) StatementBlock -> . BEGIN END
+    (7) StatementBlock -> . BEGIN ManyStatements TerminalSemicolons END
+    (22) Assignment -> . DeclaredName ASSIGN Expression
+    (106) RoutineCall -> . DeclaredName LPAREN RPAREN
+    (107) RoutineCall -> . DeclaredName LPAREN ManyExpressions RPAREN
+    (90) DeclaredName -> . IDENTIFIER
+
+    IF              shift and go to state 128
+    WHILE           shift and go to state 135
+    FOR             shift and go to state 136
+    BEGIN           shift and go to state 11
+    IDENTIFIER      shift and go to state 5
+
+    Assignment                     shift and go to state 27
+    Statement                      shift and go to state 174
+    ClosedStatement                shift and go to state 189
+    NoTailStatement                shift and go to state 131
+    IfThen                         shift and go to state 22
+    IfThenElse                     shift and go to state 23
+    While                          shift and go to state 24
+    For                            shift and go to state 25
+    ClosedIfThenElse               shift and go to state 132
+    ClosedWhile                    shift and go to state 133
+    ClosedFor                      shift and go to state 134
+    StatementBlock                 shift and go to state 26
+    RoutineCall                    shift and go to state 28
+    DeclaredName                   shift and go to state 32
+
+state 186
+
+    (58) ArrayType -> ARRAY LSPAREN ValueRange RSPAREN OF SimpleType .
+
+    SEMICOLON       reduce using rule 58 (ArrayType -> ARRAY LSPAREN ValueRange RSPAREN OF SimpleType .)
+    RPAREN          reduce using rule 58 (ArrayType -> ARRAY LSPAREN ValueRange RSPAREN OF SimpleType .)
+
+
+state 187
+
+    (25) ClosedIfThenElse -> IF Expression THEN ClosedStatement ELSE ClosedStatement .
+
+    ELSE            reduce using rule 25 (ClosedIfThenElse -> IF Expression THEN ClosedStatement ELSE ClosedStatement .)
+
+
+state 188
+
+    (30) ClosedFor -> FOR Assignment TO Expression DO ClosedStatement .
+
+    ELSE            reduce using rule 30 (ClosedFor -> FOR Assignment TO Expression DO ClosedStatement .)
+
+
+state 189
+
+    (31) ClosedFor -> FOR Assignment DOWNTO Expression DO ClosedStatement .
+
+    ELSE            reduce using rule 31 (ClosedFor -> FOR Assignment DOWNTO Expression DO ClosedStatement .)
+
